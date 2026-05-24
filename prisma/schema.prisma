@@ -1,0 +1,83 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 1. Expanded 10-stage insurance pipeline
+enum PipelineStage {
+  New
+  Contacted
+  Booked_Call
+  Discovery_Complete
+  Options_Presented
+  App_Submitted
+  Underwriting
+  Issued_Delivered
+  In_Force_Review
+  Lost_Not_Proceeding
+}
+
+// 2. Consent Status Enum
+enum ConsentStatus {
+  unknown
+  opted_in
+  opted_out
+}
+
+// Contact model incorporating lead/consent tracking
+model Contact {
+  id                 String        @id @default(uuid())
+  name               String
+  email              String?
+  phone              String?
+  notes              String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  stage              PipelineStage @default(New)
+  
+  // 3. Added consent tracking
+  smsConsentStatus   ConsentStatus @default(unknown)
+  emailConsentStatus ConsentStatus @default(unknown)
+  smsOptInAt         DateTime?
+  smsOptOutAt        DateTime?
+  emailOptOutAt      DateTime?
+}
+
+// 4. WebhookEvent for Idempotency
+model WebhookEvent {
+  id              String    @id @default(uuid())
+  provider        String
+  providerEventId String
+  eventType       String?
+  receivedAt      DateTime  @default(now())
+  processedAt     DateTime?
+  status          String    @default("received")
+  payload         Json
+  error           String?
+
+  @@unique([provider, providerEventId])
+  @@index([provider, status])
+  @@index([receivedAt])
+}
+
+// 5. AppointmentReminder to prevent duplicate SMS/Emails
+model AppointmentReminder {
+  id              String    @id @default(uuid())
+  calendarEventId String
+  channel         String
+  reminderType    String
+  scheduledFor    DateTime
+  sentAt          DateTime?
+  providerId      String?
+  status          String    @default("pending")
+  error           String?
+
+  @@unique([calendarEventId, channel, reminderType])
+  @@index([status, scheduledFor])
+}

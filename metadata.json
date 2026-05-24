@@ -1,0 +1,6 @@
+{
+  "name": "Latimore Life & Legacy OS",
+  "description": "An interconnected Notion-style life workspace tracking finances, health, and goals with custom dashboards, third-party integrations, and automated Gemini AI reports tailored for Latimore Life & Legacy LLC.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
