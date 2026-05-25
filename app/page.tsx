@@ -1111,11 +1111,27 @@ Founder & CEO, Latimore Life & Legacy
   const [socialWidgets, setSocialWidgets] = useState({
     showKPIs: true,
     showCharts: true,
+    showPAHS: true,
     showInsights: true,
     showSentiment: true,
     showScheduler: true,
     showUploader: true,
   });
+
+  // PAHS Daily Command Brief runner state
+  const [pahsBriefRunning, setPahsBriefRunning] = useState(false);
+  const [pahsBriefStep, setPahsBriefStep] = useState(-1);
+  const [pahsBriefOutputs, setPahsBriefOutputs] = useState<Record<string, string>>({});
+  const pahsBriefNodes = [
+    { id: "context",   label: "🧠 Daily Context Setup",       prompt: "Generate the Latimore Life & Legacy Daily Marketing context for today. Community focus: PAHS (Pottsville Area High School). Offer: Life insurance, legacy planning, family protection. CTA: Scan QR code or DM PROTECT. Keep it concise and action-oriented." },
+    { id: "social",    label: "📣 Social Post Generator",     prompt: "Create one ready-to-post Facebook and Google Business Profile post for Latimore Life & Legacy. Open with a community-centered hook referencing the PAHS community. Include a CTA: Scan the QR code or DM PROTECT. Return: (1) Facebook post, (2) Google Business Profile post, (3) Suggested image idea, (4) UTM campaign label." },
+    { id: "education", label: "📘 Client Education Tip",       prompt: "Create a simple client education tip about why every family should review their protection plan before they need it. Return in 3 formats: (1) Short social caption, (2) SMS-friendly version under 160 chars, (3) One-sentence in-person talking point." },
+    { id: "followup",  label: "💬 New Lead Follow-Up",         prompt: "Write follow-up messages for a new lead who came in through the PAHS QR code campaign. Interest: Family protection quote. Return: (1) SMS follow-up, (2) Email follow-up, (3) Messenger/DM version, (4) Recommended CRM pipeline status." },
+    { id: "pahs",      label: "🏫 PAHS Campaign Action",       prompt: "Create today's PAHS community campaign action. Community partner: PAHS. Campaign asset: Ethos postcard with QR code linking to a tracked lead-capture page. Return: (1) Today's action, (2) Why it matters, (3) Tracking instruction, (4) Follow-up trigger, (5) Metric to review tomorrow." },
+    { id: "referral",  label: "🤝 Referral Prompt",            prompt: "Create a referral prompt for Latimore Life & Legacy targeting existing clients, parents, and PAHS community contacts. Angle: Help another family protect what matters before life forces the conversation. Return: (1) Text message, (2) Social post, (3) In-person script, (4) One-line referral card copy." },
+    { id: "priorities",label: "🎯 Top Business Priorities",    prompt: "Identify the top 3 business priorities for Latimore Life & Legacy today using this filter: (1) What creates trust today? (2) What captures or advances leads today? (3) What strengthens the PAHS community authority system? For each: priority title, why it matters, one concrete action, expected result." },
+    { id: "brief",     label: "🧾 Final Command Brief",        prompt: "Compile today's Latimore Life & Legacy Daily Marketing Command Brief into one clean final report with sections: Social Posts, Education Tip, Lead Follow-Up, PAHS Campaign Action, Referral Prompt, Top 3 Priorities, Tracking Notes, Tomorrow's Review Questions. Keep it concise and ready to use." },
+  ];
 
   const [selectedSocialPlatformFilter, setSelectedSocialPlatformFilter] = useState("all");
 
@@ -4947,6 +4963,15 @@ Founder & CEO, Latimore Life & Legacy
                     <label className="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
                       <input
                         type="checkbox"
+                        checked={socialWidgets.showPAHS}
+                        onChange={(e) => setSocialWidgets(prev => ({ ...prev, showPAHS: e.target.checked }))}
+                        className="rounded accent-amber-500 bg-slate-950 h-3.5 w-3.5 border-slate-800"
+                      />
+                      <span>PAHS Campaign</span>
+                    </label>
+                    <label className="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                      <input
+                        type="checkbox"
                         checked={socialWidgets.showInsights}
                         onChange={(e) => setSocialWidgets(prev => ({ ...prev, showInsights: e.target.checked }))}
                         className="rounded accent-amber-500 bg-slate-950 h-3.5 w-3.5 border-slate-800"
@@ -5215,7 +5240,226 @@ Founder & CEO, Latimore Life & Legacy
                   </button>
                 </div>
 
-                {/* 4. AI PREDICTIVE INSIGHTS CARD */}
+                {/* 4. PAHS COMMUNITY CAMPAIGN COMMAND CENTER */}
+                {socialWidgets.showPAHS && (
+                  <div className="lg:col-span-12 flex flex-col gap-5 print:hidden w-full">
+
+                    {/* Header */}
+                    <div className="bg-gradient-to-br from-amber-950/30 via-slate-900 to-slate-900 border border-amber-500/20 rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className="text-[9px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                            <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+                            ACTIVE
+                          </span>
+                          <span className="text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-slate-400 font-bold uppercase tracking-wider">UTM: pahs_q2_2026</span>
+                          <span className="text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-slate-400 font-bold uppercase tracking-wider">QR: ethos-postcard</span>
+                        </div>
+                        <h4 className="text-sm font-bold text-white uppercase tracking-wide">PAHS Community Campaign Command Center</h4>
+                        <p className="text-[11px] text-slate-400 mt-1 leading-relaxed max-w-2xl font-sans">
+                          Pottsville Area High School sponsorship & community outreach pipeline. Track QR-based lead capture, execute daily command briefs, and advance families through the five-stage protection funnel.
+                        </p>
+                      </div>
+                      <div className="shrink-0 flex items-center gap-3 bg-slate-950/70 border border-slate-800 px-4 py-3 rounded-xl text-xs font-mono">
+                        <div className="text-center">
+                          <div className="text-amber-400 font-bold text-base">84</div>
+                          <div className="text-[9px] text-slate-500 uppercase">Captured Leads</div>
+                        </div>
+                        <div className="h-7 w-[1px] bg-slate-800" />
+                        <div className="text-center">
+                          <div className="text-emerald-400 font-bold text-base">18</div>
+                          <div className="text-[9px] text-slate-500 uppercase">Conversions</div>
+                        </div>
+                        <div className="h-7 w-[1px] bg-slate-800" />
+                        <div className="text-center">
+                          <div className="text-white font-bold text-base">21.4%</div>
+                          <div className="text-[9px] text-slate-500 uppercase">Conv. Rate</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+                      {/* Community Pipeline Funnel */}
+                      <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 font-mono flex flex-col gap-4">
+                        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+                          <Target className="h-4 w-4 text-amber-400" />
+                          <h5 className="text-xs font-bold text-white uppercase tracking-wider">Community Protection Pipeline</h5>
+                        </div>
+                        {[
+                          { stage: "1. Awareness", label: "PAHS posts + postcards seen", count: 420, color: "bg-indigo-500", pct: "100%" },
+                          { stage: "2. Interest",  label: "QR code scanned or DM sent", count: 128, color: "bg-violet-500", pct: "30%" },
+                          { stage: "3. Capture",   label: "Lead form submitted",         count: 84,  color: "bg-pink-500",   pct: "20%" },
+                          { stage: "4. Follow-Up", label: "Drip sequence active",        count: 52,  color: "bg-amber-500",  pct: "12.4%" },
+                          { stage: "5. Conversion",label: "Protection plan booked",      count: 18,  color: "bg-emerald-500","pct": "4.3%" },
+                        ].map((s) => (
+                          <div key={s.stage}>
+                            <div className="flex justify-between items-center mb-1 text-[11px]">
+                              <span className="font-bold text-slate-400 uppercase tracking-wide">{s.stage}</span>
+                              <span className="text-white font-bold">{s.count} <span className="text-slate-500 font-normal text-[10px]">families</span></span>
+                            </div>
+                            <div className="w-full bg-slate-950 h-1.5 rounded overflow-hidden">
+                              <div className={`${s.color} h-full rounded transition-all`} style={{ width: s.pct }} />
+                            </div>
+                            <div className="text-[9px] text-slate-600 mt-0.5">{s.label}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Daily Command Brief Runner */}
+                      <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-5 font-mono flex flex-col gap-4">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                          <div className="flex items-center gap-2">
+                            <Zap className="h-4 w-4 text-amber-400" />
+                            <h5 className="text-xs font-bold text-white uppercase tracking-wider">Daily Marketing Command Brief</h5>
+                          </div>
+                          <button
+                            type="button"
+                            disabled={pahsBriefRunning}
+                            onClick={async () => {
+                              setPahsBriefRunning(true);
+                              setPahsBriefStep(0);
+                              setPahsBriefOutputs({});
+                              let context = "";
+                              for (let i = 0; i < pahsBriefNodes.length; i++) {
+                                setPahsBriefStep(i);
+                                try {
+                                  const res = await fetch("/api/gemini/autoloop", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                      nodeId: pahsBriefNodes[i].id,
+                                      nodeLabel: pahsBriefNodes[i].label,
+                                      prompt: pahsBriefNodes[i].prompt,
+                                      context: context,
+                                    }),
+                                  });
+                                  const data = await res.json();
+                                  const output = data.text || "";
+                                  context = output;
+                                  setPahsBriefOutputs(prev => ({ ...prev, [pahsBriefNodes[i].id]: output }));
+                                } catch {
+                                  setPahsBriefOutputs(prev => ({ ...prev, [pahsBriefNodes[i].id]: "Error running this step." }));
+                                }
+                              }
+                              setPahsBriefStep(-1);
+                              setPahsBriefRunning(false);
+                            }}
+                            className="text-[10px] bg-amber-500/10 text-amber-300 hover:text-white border border-amber-500/20 hover:border-amber-500 px-3 py-1.5 rounded-lg font-bold cursor-pointer disabled:opacity-40 transition-all flex items-center gap-1.5"
+                          >
+                            {pahsBriefRunning ? (
+                              <><RefreshCw className="h-3 w-3 animate-spin" /> Running...</>
+                            ) : (
+                              <><Zap className="h-3 w-3" /> Run Today&apos;s Brief</>
+                            )}
+                          </button>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          {pahsBriefNodes.map((node, idx) => {
+                            const isDone = pahsBriefOutputs[node.id] !== undefined;
+                            const isActive = pahsBriefRunning && pahsBriefStep === idx;
+                            const isPending = pahsBriefRunning && pahsBriefStep < idx;
+                            return (
+                              <div key={node.id} className={`flex flex-col gap-1.5 p-3 rounded-lg border transition-all ${
+                                isDone ? "bg-emerald-500/5 border-emerald-500/20" :
+                                isActive ? "bg-amber-500/10 border-amber-500/30" :
+                                "bg-slate-950/40 border-slate-850"
+                              }`}>
+                                <div className="flex items-center gap-2">
+                                  <span className={`h-4 w-4 rounded-full flex items-center justify-center shrink-0 ${
+                                    isDone ? "bg-emerald-500/20" : isActive ? "bg-amber-500/20" : "bg-slate-800"
+                                  }`}>
+                                    {isDone ? <Check className="h-2.5 w-2.5 text-emerald-400" /> :
+                                     isActive ? <RefreshCw className="h-2.5 w-2.5 text-amber-400 animate-spin" /> :
+                                     <Clock className="h-2.5 w-2.5 text-slate-600" />}
+                                  </span>
+                                  <span className={`text-[11px] font-bold ${isDone ? "text-emerald-300" : isActive ? "text-amber-300" : "text-slate-500"}`}>
+                                    {node.label}
+                                  </span>
+                                </div>
+                                {isDone && pahsBriefOutputs[node.id] && (
+                                  <div className="text-[10px] text-slate-400 font-sans leading-relaxed pl-6 line-clamp-3">
+                                    {pahsBriefOutputs[node.id].slice(0, 280)}{pahsBriefOutputs[node.id].length > 280 ? "…" : ""}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {!pahsBriefRunning && pahsBriefOutputs["brief"] && (
+                          <div className="mt-1 p-3 bg-emerald-500/5 border border-emerald-500/20 rounded-lg">
+                            <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5">✅ Today&apos;s Brief Complete</div>
+                            <div className="text-[11px] text-slate-300 font-sans leading-relaxed whitespace-pre-wrap max-h-40 overflow-y-auto">
+                              {pahsBriefOutputs["brief"]}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content Week 3: PAHS / School District Posts */}
+                      <div className="lg:col-span-12 bg-slate-900 border border-slate-800 rounded-xl p-5 font-mono">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                          <div className="flex items-center gap-2">
+                            <BookOpen className="h-4 w-4 text-sky-400" />
+                            <h5 className="text-xs font-bold text-white uppercase tracking-wider">Week 3 Content Library — Business Continuity & School Protection</h5>
+                          </div>
+                          <span className="text-[10px] text-slate-500 uppercase">March 2026 Package · Ready to Schedule</span>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          {[
+                            {
+                              platform: "Facebook",
+                              color: "text-blue-400",
+                              border: "border-blue-500/20",
+                              bg: "bg-blue-500/5",
+                              label: "Post 3.1 — School Districts",
+                              caption: "A question for every school board member: What's your plan if your Superintendent or Business Manager passes away unexpectedly?\n\nKey person insurance ensures your district has the financial resources to cover transition costs, bring in interim leadership, and maintain stability during a crisis.\n\n📞 Schedule a consultation → [link]\n\n#SchoolDistricts #KeyPersonInsurance #LatimoreLifeAndLegacy",
+                            },
+                            {
+                              platform: "LinkedIn",
+                              color: "text-sky-400",
+                              border: "border-sky-500/20",
+                              bg: "bg-sky-500/5",
+                              label: "Post 3.1 — School Board Focus",
+                              caption: `Your district has insurance on your buildings. Your buses. Your equipment.\n\nBut do you have insurance on your most critical asset — your leadership?\n\nKey person insurance on superintendents and business managers isn't morbid. It's responsible governance.\n\n📩 DM me "DISTRICT" to explore this for your schools.\n\n#K12Education #SchoolBoards #RiskManagement`,
+                            },
+                            {
+                              platform: "Instagram",
+                              color: "text-pink-400",
+                              border: "border-pink-500/20",
+                              bg: "bg-pink-500/5",
+                              label: "Post 3.1 — Infographic",
+                              caption: "What Happens If Your School District Loses a Key Leader?\n\nWITHOUT a plan: ❌ Operational chaos ❌ Budget strain ❌ Rushed decisions ❌ Community anxiety\n\nWITH key person protection: ✅ Financial resources ready ✅ Orderly transition ✅ Community confidence ✅ Educational mission protected\n\nSchools protect their buildings. Shouldn't they protect their leadership too?\n\n📲 Link in bio for consultation.",
+                            },
+                          ].map((post) => (
+                            <div key={post.label} className={`p-4 rounded-xl border ${post.border} ${post.bg} flex flex-col gap-3`}>
+                              <div className="flex items-center justify-between">
+                                <span className={`text-[10px] font-bold uppercase tracking-wider ${post.color}`}>{post.platform}</span>
+                                <span className="text-[9px] text-slate-500 font-bold uppercase">{post.label}</span>
+                              </div>
+                              <p className="text-[10.5px] text-slate-300 leading-relaxed font-sans whitespace-pre-wrap line-clamp-6">{post.caption}</p>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigator.clipboard?.writeText(post.caption);
+                                  alert(`${post.platform} post copied to clipboard!`);
+                                }}
+                                className="mt-auto text-[10px] bg-slate-950 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-600 px-2.5 py-1 rounded font-semibold cursor-pointer transition-all"
+                              >
+                                Copy Post
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. AI PREDICTIVE INSIGHTS CARD */}
                 {socialWidgets.showInsights && (
                   <div className="lg:col-span-6 flex flex-col gap-6 print:hidden w-full">
                     <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm font-mono flex flex-col gap-4">
