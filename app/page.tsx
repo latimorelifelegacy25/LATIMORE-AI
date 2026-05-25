@@ -5024,7 +5024,70 @@ Founder & CEO, Latimore Life & Legacy
                 {/* 2. CHARTS SECTION */}
                 {socialWidgets.showCharts && (
                   <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-12 gap-6 print:hidden w-full">
-                    
+
+                    {/* Recharts 0: Engagement Growth Trend (new full-width AreaChart) */}
+                    <div className="md:col-span-12 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm font-mono">
+                      <div className="flex items-center justify-between border-b border-slate-850 pb-3 mb-4">
+                        <div className="flex items-center gap-2">
+                          <TrendingUp className="h-4 w-4 text-teal-400" />
+                          <h4 className="text-xs font-bold text-white uppercase tracking-wider">Engagement Growth Trend — LinkedIn · Instagram · Facebook</h4>
+                        </div>
+                        <span className="text-[10px] text-slate-500 uppercase">12-Week Rolling · Clicks + Interactions</span>
+                      </div>
+                      <div className="h-72 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart
+                            data={[
+                              { week: "Wk 1",  LinkedIn: 1240, Instagram: 820,  Facebook: 1580 },
+                              { week: "Wk 2",  LinkedIn: 1380, Instagram: 910,  Facebook: 1620 },
+                              { week: "Wk 3",  LinkedIn: 1290, Instagram: 980,  Facebook: 1710 },
+                              { week: "Wk 4",  LinkedIn: 1540, Instagram: 1050, Facebook: 1790 },
+                              { week: "Wk 5",  LinkedIn: 1680, Instagram: 1140, Facebook: 1840 },
+                              { week: "Wk 6",  LinkedIn: 1820, Instagram: 1260, Facebook: 1920 },
+                              { week: "Wk 7",  LinkedIn: 1750, Instagram: 1380, Facebook: 2080 },
+                              { week: "Wk 8",  LinkedIn: 1940, Instagram: 1490, Facebook: 2140 },
+                              { week: "Wk 9",  LinkedIn: 2080, Instagram: 1620, Facebook: 2290 },
+                              { week: "Wk 10", LinkedIn: 2210, Instagram: 1740, Facebook: 2380 },
+                              { week: "Wk 11", LinkedIn: 2360, Instagram: 1890, Facebook: 2520 },
+                              { week: "Wk 12", LinkedIn: 2490, Instagram: 2010, Facebook: 2640 },
+                            ]}
+                            margin={{ top: 4, right: 16, left: 0, bottom: 0 }}
+                          >
+                            <defs>
+                              <linearGradient id="gradLinkedIn" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%"  stopColor="#fbbf24" stopOpacity={0.25} />
+                                <stop offset="95%" stopColor="#fbbf24" stopOpacity={0.02} />
+                              </linearGradient>
+                              <linearGradient id="gradInstagram" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%"  stopColor="#ec4899" stopOpacity={0.25} />
+                                <stop offset="95%" stopColor="#ec4899" stopOpacity={0.02} />
+                              </linearGradient>
+                              <linearGradient id="gradFacebook" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%"  stopColor="#3b82f6" stopOpacity={0.25} />
+                                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.02} />
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                            <XAxis dataKey="week" stroke="#64748b" fontSize={10} tickLine={false} />
+                            <YAxis stroke="#64748b" fontSize={10} tickLine={false} width={40} />
+                            <Tooltip
+                              contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", fontSize: 11 }}
+                              labelStyle={{ color: "#ffffff", fontWeight: 700 }}
+                              itemStyle={{ color: "#94a3b8" }}
+                            />
+                            <Legend
+                              iconType="circle"
+                              iconSize={8}
+                              wrapperStyle={{ fontSize: 10, paddingTop: 12, color: "#94a3b8" }}
+                            />
+                            <Area type="monotone" dataKey="LinkedIn"  stroke="#fbbf24" strokeWidth={2} fill="url(#gradLinkedIn)"  dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                            <Area type="monotone" dataKey="Instagram" stroke="#ec4899" strokeWidth={2} fill="url(#gradInstagram)" dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                            <Area type="monotone" dataKey="Facebook"  stroke="#3b82f6" strokeWidth={2} fill="url(#gradFacebook)"  dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+
                     {/* Recharts 1: Cross Platform Engagement Trend */}
                     <div className="md:col-span-8 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm font-mono">
                       <div className="flex items-center justify-between border-b border-slate-850 pb-3 mb-4">
@@ -5052,9 +5115,11 @@ Founder & CEO, Latimore Life & Legacy
                             <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} />
                             <YAxis stroke="#64748b" fontSize={10} tickLine={false} />
                             <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b" }} labelStyle={{ color: "#ffffff" }} />
-                            <Bar dataKey="LinkedIn" fill="#fbbf24" radius={[4, 4, 0, 0]} />
-                            <Bar dataKey="Facebook" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                            <Bar dataKey="Website" fill="#10b981" radius={[4, 4, 0, 0]} />
+                            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 10, paddingTop: 8, color: "#94a3b8" }} />
+                            <Bar dataKey="LinkedIn"  fill="#fbbf24" radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="Instagram" fill="#ec4899" radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="Facebook"  fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="Website"   fill="#10b981" radius={[4, 4, 0, 0]} />
                           </BarChart>
                         </ResponsiveContainer>
                       </div>
