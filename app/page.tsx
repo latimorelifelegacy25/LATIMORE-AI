@@ -327,8 +327,107 @@ export default function LatimoreWorkspace() {
     "2": `# Change Log initialized\n\n- **Change Log Identifier**: COURSE LOOP — Jackson Latimore OS\n- **Loop iteration count**: 1\n- **Active target topic**: Advanced SEO Lead Generation\n- **Target Audience**: Central PA SMB Owners\n\n*Ready to compile course outline.*`
   });
 
-  const [autoloopPreset, setAutoloopPreset] = useState<"seo" | "codebase" | "custom">("seo");
+  const [autoloopPreset, setAutoloopPreset] = useState<"seo" | "codebase" | "daily_brief" | "email_drip" | "custom">("seo");
   const [customWorkflowNodes, setCustomWorkflowNodes] = useState<any[]>([]);
+
+  // Daily Marketing Command Brief Preset - field config & defaults
+  const DAILY_BRIEF_FIELDS: { key: string; label: string; multiline?: boolean }[] = [
+    { key: "BRIEF_DATE", label: "Brief Date" },
+    { key: "TARGET_AUDIENCE", label: "Target Audience", multiline: true },
+    { key: "OFFER_FOCUS", label: "Offer Focus", multiline: true },
+    { key: "COMMUNITY_FOCUS", label: "Community Focus", multiline: true },
+    { key: "PAHS_PROOF_POINT", label: "PAHS Proof Point", multiline: true },
+    { key: "PRIMARY_CTA", label: "Primary CTA" },
+    { key: "SECONDARY_CTA", label: "Secondary CTA" },
+    { key: "EDUCATION_TOPIC", label: "Education Topic", multiline: true },
+    { key: "LEAD_SOURCE", label: "Lead Source", multiline: true },
+    { key: "LEAD_NAME", label: "Lead Name" },
+    { key: "LEAD_INTEREST", label: "Lead Interest" },
+    { key: "SOURCE_CAMPAIGN", label: "Source Campaign" },
+    { key: "PIPELINE_STAGE", label: "Pipeline Stage" },
+    { key: "COMMUNITY_PARTNER", label: "Community Partner" },
+    { key: "CAMPAIGN_ASSET", label: "Campaign Asset", multiline: true },
+    { key: "QR_UTM_DESTINATION", label: "QR / UTM Destination", multiline: true },
+    { key: "CAMPAIGN_GOAL", label: "Campaign Goal", multiline: true },
+    { key: "REFERRAL_AUDIENCE", label: "Referral Audience", multiline: true },
+    { key: "REFERRAL_ANGLE", label: "Referral Angle", multiline: true },
+  ];
+
+  const DAILY_BRIEF_DEFAULTS: Record<string, string> = {
+    BRIEF_DATE: "Today",
+    TARGET_AUDIENCE: "Families, parents, homeowners, and community members who need life insurance or legacy protection guidance",
+    OFFER_FOCUS: "Life insurance, final expense planning, mortgage protection, family protection, and legacy planning",
+    COMMUNITY_FOCUS: "Local families connected to the PAHS and surrounding community",
+    PAHS_PROOF_POINT: "Latimore Life & Legacy supports PAHS through sponsorship, community outreach, postcards, direct mail, and measurable QR-based campaign tracking",
+    PRIMARY_CTA: "Scan the QR code",
+    SECONDARY_CTA: "DM “PROTECT”",
+    EDUCATION_TOPIC: "Why every family should review their protection plan before they need it",
+    LEAD_SOURCE: "QR code, Facebook, Google Business Profile, referral, community event, postcard, or direct mail",
+    LEAD_NAME: "New lead",
+    LEAD_INTEREST: "Family protection quote",
+    SOURCE_CAMPAIGN: "PAHS community campaign",
+    PIPELINE_STAGE: "New lead",
+    COMMUNITY_PARTNER: "PAHS",
+    CAMPAIGN_ASSET: "Ethos postcard or direct-mail piece with QR code",
+    QR_UTM_DESTINATION: "Tracked quote or lead-capture page",
+    CAMPAIGN_GOAL: "Move community members from awareness to captured leads and booked conversations",
+    REFERRAL_AUDIENCE: "Existing clients, friends, parents, school families, and trusted community contacts",
+    REFERRAL_ANGLE: "Help another family protect what matters before life forces the conversation",
+  };
+
+  const [dailyBriefVars, setDailyBriefVars] = useState<Record<string, string>>(DAILY_BRIEF_DEFAULTS);
+
+  // Email Drip Campaign Engine Preset - field config & defaults
+  const EMAIL_DRIP_FIELDS: { key: string; label: string; multiline?: boolean }[] = [
+    { key: "business_name", label: "Business Name" },
+    { key: "brand_name", label: "Brand Name" },
+    { key: "owner_name", label: "Owner Name" },
+    { key: "sender_name", label: "Sender Name" },
+    { key: "sender_title", label: "Sender Title" },
+    { key: "phone_number", label: "Phone Number" },
+    { key: "reply_to_email", label: "Reply-To Email" },
+    { key: "booking_link", label: "Booking Link" },
+    { key: "service_area", label: "Service Area" },
+    { key: "primary_offers", label: "Primary Offers", multiline: true },
+    { key: "voice_guidelines", label: "Voice Guidelines", multiline: true },
+    { key: "crm_name", label: "CRM Name" },
+    { key: "crm_first_name_token", label: "CRM First Name Token" },
+    { key: "trigger_sources_table", label: "Trigger Sources Table", multiline: true },
+    { key: "compliance_notes", label: "Compliance Notes", multiline: true },
+    { key: "kpi_targets", label: "KPI Targets", multiline: true },
+    { key: "pipeline_stages", label: "Pipeline Stages", multiline: true },
+  ];
+
+  const EMAIL_DRIP_DEFAULTS: Record<string, string> = {
+    business_name: "Latimore Life & Legacy LLC",
+    brand_name: "Latimore OS",
+    owner_name: "Jackson Latimore",
+    sender_name: "Jackson Latimore",
+    sender_title: "Founder | Protection & Retirement Advisor",
+    phone_number: "(###) ###-####",
+    reply_to_email: "reply@latimorelifelegacy.com",
+    booking_link: "https://your-booking-link.com",
+    service_area: "Coal Region and surrounding communities",
+    primary_offers: "Life insurance, living benefits, mortgage protection, retirement income planning, annuity education, legacy planning",
+    voice_guidelines: "Plain English, no pressure, clarity-first, trust-building, local community tone",
+    crm_name: "Your CRM",
+    crm_first_name_token: "{{first_name}}",
+    trigger_sources_table:
+      "PAHS QR code -> Family Protection / Community Trust\nWebsite consultation form -> General Protection Review\nEthos quote request -> Fast Term / Living Benefits\nRetirement inquiry -> Annuity / Safe Money\nFacebook DM “PROTECT” -> Life Insurance Education\nGoogle Business Profile -> Local Trust / Policy Review",
+    compliance_notes:
+      "Include unsubscribe/opt-out instructions where required. Follow applicable TCPA/CAN-SPAM rules. Use business address/footer if required by your email provider.",
+    kpi_targets:
+      "Email open rate: 35%+\nClick-through rate: 3%–8%\nReply rate: 5%+\nBooking conversion: 10%–20%\nSequence completion: 80%+\nCold lead revival: 5%–10%",
+    pipeline_stages: "New Lead, Nurturing, Engaged, Booked, No Response, Closed Won, Closed Lost, Opted Out, Cold",
+  };
+
+  const [emailDripVars, setEmailDripVars] = useState<Record<string, string>>(EMAIL_DRIP_DEFAULTS);
+
+  const updateDailyBriefVar = (key: string, value: string) =>
+    setDailyBriefVars((prev) => ({ ...prev, [key]: value }));
+
+  const updateEmailDripVar = (key: string, value: string) =>
+    setEmailDripVars((prev) => ({ ...prev, [key]: value }));
 
   // Codebase Preset States (Always-Updated Codebase Audit & Fix Loop parameters)
   const [auditProjectName, setAuditProjectName] = useState("Latimore Hub OS");
@@ -570,11 +669,121 @@ export default function LatimoreWorkspace() {
     { id: "17", type: "END", label: "END: Fix Run Complete", prompt: "Stop codebase audit loop run." }
   ];
 
+  const DAILY_BRIEF_WORKFLOW_NODES = [
+    { id: "1", type: "START", label: "START: Daily Marketing Command Brief", prompt: "Initialize Daily Marketing Command Brief Workflow" },
+    {
+      id: "2",
+      type: "DEFAULT",
+      label: "🧠 Daily Context Setup",
+      prompt: "You are generating the Latimore Life & Legacy Daily Marketing Command Brief for {BRIEF_DATE}.\n\nUse the Latimore OS model:\n- Build community authority first\n- Use PAHS campaign proof as a trust anchor\n- Drive QR and UTM-based lead capture\n- Think in terms of a Supabase-powered lead pipeline\n- Use clear CTA paths: scan the QR code or DM “PROTECT”\n\nAudience: {TARGET_AUDIENCE}\nOffer focus: {OFFER_FOCUS}\nLocation/community focus: {COMMUNITY_FOCUS}\nCampaign proof point: {PAHS_PROOF_POINT}\nPrimary CTA: {PRIMARY_CTA}\nSecondary CTA: {SECONDARY_CTA}\n\nCreate a concise daily marketing command brief. Keep it practical, community-centered, and action-oriented."
+    },
+    {
+      id: "3",
+      type: "DEFAULT",
+      label: "📣 Social Post Generator",
+      prompt: "Create one ready-to-post Facebook and Google Business Profile post for Latimore Life & Legacy.\n\nRequirements:\n- Open with a community-centered hook\n- Mention protection, legacy, or family readiness\n- Reference {COMMUNITY_FOCUS} naturally\n- Include the PAHS/community trust angle if relevant\n- Keep the tone warm, professional, and human\n- End with the CTA: {PRIMARY_CTA} or {SECONDARY_CTA}\n\nReturn:\n1. Facebook post\n2. Google Business Profile post\n3. Suggested image or graphic idea\n4. Suggested UTM campaign label"
+    },
+    {
+      id: "4",
+      type: "DEFAULT",
+      label: "📘 Client Education Tip",
+      prompt: "Create a simple client education tip for today.\n\nTopic focus: {EDUCATION_TOPIC}\nAudience: {TARGET_AUDIENCE}\n\nRequirements:\n- Explain one useful protection, life insurance, final expense, legacy, or family planning concept\n- Keep it clear enough for a first-time insurance buyer\n- Avoid fear-based language\n- Tie the lesson back to taking one small action today\n- End with a soft CTA using {PRIMARY_CTA} or {SECONDARY_CTA}\n\nReturn the tip in three formats:\n1. Short social caption\n2. SMS-friendly version\n3. One-sentence talking point for in-person conversations"
+    },
+    {
+      id: "5",
+      type: "DEFAULT",
+      label: "💬 New Lead Follow-Up",
+      prompt: "Write a follow-up message for a new lead who came in through {LEAD_SOURCE}.\n\nLead context:\n- Name: {LEAD_NAME}\n- Interest: {LEAD_INTEREST}\n- Source campaign: {SOURCE_CAMPAIGN}\n- Stage in pipeline: {PIPELINE_STAGE}\n\nRequirements:\n- Be personal, respectful, and brief\n- Reference their original action or interest\n- Make the next step easy\n- Offer two response options if helpful\n- Use a calm protection-focused tone\n\nReturn:\n1. SMS follow-up\n2. Email follow-up\n3. Messenger/DM follow-up\n4. Recommended next pipeline status for Supabase"
+    },
+    {
+      id: "6",
+      type: "DEFAULT",
+      label: "🏫 PAHS Campaign Action",
+      prompt: "Create today’s PAHS or community campaign action.\n\nCampaign context:\n- Community partner: {COMMUNITY_PARTNER}\n- Campaign asset: {CAMPAIGN_ASSET}\n- QR or UTM destination: {QR_UTM_DESTINATION}\n- Campaign goal: {CAMPAIGN_GOAL}\n\nRequirements:\n- Make the action measurable\n- Connect the physical or community touchpoint to digital lead capture\n- Include what to post, send, place, ask, or track today\n- Tie the action to the five-stage pipeline: awareness, interest, capture, follow-up, conversion\n\nReturn:\n1. Today’s action\n2. Why it matters\n3. Tracking instruction\n4. Follow-up trigger\n5. Metric to review tomorrow"
+    },
+    {
+      id: "7",
+      type: "DEFAULT",
+      label: "🤝 Referral Prompt",
+      prompt: "Create a referral prompt for Latimore Life & Legacy.\n\nReferral audience: {REFERRAL_AUDIENCE}\nReferral angle: {REFERRAL_ANGLE}\n\nRequirements:\n- Sound natural and relationship-based\n- Make the ask specific but not pushy\n- Mention families, protection, legacy, or community care\n- Include a simple CTA path using {PRIMARY_CTA} or {SECONDARY_CTA}\n\nReturn:\n1. Text message version\n2. Social post version\n3. In-person script\n4. One-line referral card copy"
+    },
+    {
+      id: "8",
+      type: "DEFAULT",
+      label: "🎯 Top Priorities",
+      prompt: "Based on today’s brief, identify the top 3 business priorities for Latimore Life & Legacy.\n\nUse this priority filter:\n1. What creates trust today?\n2. What captures or advances leads today?\n3. What strengthens the community authority system today?\n\nReturn exactly 3 priorities.\n\nFor each priority include:\n- Priority title\n- Why it matters\n- One concrete action\n- Expected result\n- Owner or role responsible"
+    },
+    {
+      id: "9",
+      type: "DEFAULT",
+      label: "🧾 Final Command Brief",
+      prompt: "Compile the full Latimore Life & Legacy Daily Marketing Command Brief into one clean final report.\n\nUse this structure:\n\nLatimore Life & Legacy Daily Marketing Command Brief\nDate: {BRIEF_DATE}\n\n1. Facebook / Google Business Profile Post\n2. Client Education Tip\n3. New-Lead Follow-Up Message\n4. PAHS / Community Campaign Action\n5. Referral Prompt\n6. Top 3 Business Priorities\n7. Tracking Notes for Supabase\n8. Tomorrow’s Review Questions\n\nKeep the final brief concise, polished, and ready to use before the business day starts."
+    },
+    { id: "10", type: "END", label: "END: Brief Complete", prompt: "Halt node executor" }
+  ];
+
+  const EMAIL_DRIP_WORKFLOW_NODES = [
+    { id: "1", type: "START", label: "START: Email Drip Campaign Engine", prompt: "Initialize Email Drip Campaign System Workflow" },
+    {
+      id: "2",
+      type: "DEFAULT",
+      label: "🧠 Business + Plan Context Lock",
+      prompt: "You are building an “Email Drip Campaign System” addendum to an existing Business + Marketing Plan for {business_name} / {brand_name}.\n\nFirst, lock the operating context:\n- Owner: {owner_name}\n- Offers: {primary_offers}\n- Service area: {service_area}\n- Voice: {voice_guidelines}\n- Booking link: {booking_link}\n- CRM: {crm_name}\n- Compliance notes: {compliance_notes}\n\nIf {trigger_sources_table} is provided, use it as the source-to-sequence mapping. If it is missing, propose a reasonable mapping based on the offers and channels.\n\nOutput:\n1) A short “Why this drip exists” paragraph (trust-building touches, not one follow-up)\n2) The 6-stage framework labels: welcome, education, social proof, soft ask, urgency nudge, re-engagement\n3) The exact 30-day cadence (Day 0, 2, 5, 10, 17, 30) with a one-line goal for each touch\n\nKeep tone plain-English and client-trust focused. No hype."
+    },
+    {
+      id: "3",
+      type: "DEFAULT",
+      label: "🏷 Source Tagging + Sequence Assignment Map",
+      prompt: "Create the “Trigger Sources” section.\n\nUse this structure:\n- Lead Source\n- Assigned Sequence Name\n- Primary intent of that sequence\n- CRM tag(s) to apply (source + sequence + stage)\n- Entry criteria (what makes a lead qualify)\n- Exit criteria (what stops the drip: booked, replied, opted out, closed)\n\nIf the user provides a mapping table, preserve it exactly and add the missing columns above. If not provided, generate a mapping that covers at least:\n- QR code / community events\n- Website consultation form\n- Quote request\n- Retirement / annuity inquiry\n- Facebook DM keyword\n- Google Business Profile\n\nMake the tags consistent and copy-paste friendly for {crm_name}."
+    },
+    {
+      id: "4",
+      type: "DEFAULT",
+      label: "🗓 30-Day Drip Blueprint",
+      prompt: "Build the “30-Day Lead Nurture Sequence” section as a table.\n\nColumns:\n- Day\n- Stage (welcome, education, social proof, soft ask, urgency nudge, re-engagement)\n- Channel (email, text, both)\n- Theme / subject angle\n- Primary goal\n- CTA\n- Personalization tokens to use (use {crm_first_name_token} and {booking_link})\n\nRules:\n- Day 0 must confirm receipt and set expectations.\n- Education must teach a simple framework to help estimate coverage needs.\n- Social proof must emphasize local/community credibility.\n- Soft ask must invite a low-pressure review.\n- Urgency must explain risk of waiting without fearmongering.\n- Re-engagement must add fresh value and reopen the loop.\n\nEnd with a short note on how to adjust timing if the lead replies or books early."
+    },
+    {
+      id: "5",
+      type: "DEFAULT",
+      label: "✉️ Six Email Drafts (Plug-and-Play)",
+      prompt: "Write the full copy for the 6 emails in the sequence.\n\nConstraints:\n- Each email includes: Subject line + body + clear CTA with {booking_link}\n- Use {crm_first_name_token} in greeting\n- Keep paragraphs short and scannable\n- Voice: plain English, no pressure, clarity-first\n- Include a consistent signature block:\n  {sender_name}\n  {sender_title}\n  {business_name}\n  {phone_number}\n- Include minimal compliance footer language if {compliance_notes} requires it\n- Ensure each email matches its stage goal and day\n\nOutput as:\nDay 0 Email\nDay 2 Email\nDay 5 Email\nDay 10 Email\nDay 17 Email\nDay 30 Email"
+    },
+    {
+      id: "6",
+      type: "DEFAULT",
+      label: "📲 Text Message Companions",
+      prompt: "Create a matching set of SMS/text messages for Day 0, 2, 5, 10, 17, 30.\n\nConstraints:\n- 240 characters max each\n- Friendly, professional, local-trust tone\n- One clear CTA per message (either reply with a word, or book via {booking_link})\n- Use {crm_first_name_token} where appropriate\n- Include opt-out language if required by {compliance_notes}\n\nOutput as:\nDay 0 Text\nDay 2 Text\nDay 5 Text\nDay 10 Text\nDay 17 Text\nDay 30 Text"
+    },
+    {
+      id: "7",
+      type: "DEFAULT",
+      label: "🤖 Automation Rules + Manual Task Logic",
+      prompt: "Write the “Automation Rule” section as an implementation spec for {crm_name}.\n\nInclude:\n1) Trigger: new lead created and source captured\n2) Actions immediately on entry:\n   - apply tags\n   - send Day 0 message\n   - create a timeline for remaining touches\n3) Conditional branches:\n   - If lead books: stop sequence, move pipeline stage to Booked, create reminder task\n   - If lead replies: pause automation for manual follow-up, move stage to Engaged\n   - If lead opts out: stop all messaging, tag Opted Out\n4) No-response rule:\n   - If no reply and no booking after Day 10, create a manual task for {owner_name} with a short call script outline\n5) Re-engagement:\n   - At Day 30, tag as Cold if no engagement; optionally move to long-term nurture list\n\nOutput:\n- A numbered rules list\n- A compact pseudo-flow diagram in text (Lead comes in -> tags -> drip -> task -> pipeline move)"
+    },
+    {
+      id: "8",
+      type: "DEFAULT",
+      label: "📊 KPI Targets + Reporting Loop",
+      prompt: "Create the “KPIs to Track” section.\n\nInclude a table with:\n- KPI\n- Target\n- How to measure in {crm_name}\n- Weekly action if below target (one specific adjustment)\n\nMinimum KPIs:\n- Email open rate\n- Click-through rate\n- Reply rate\n- Booking conversion\n- Sequence completion\n- Cold lead revival\n\nThen add:\n- A simple weekly review checklist (10 minutes)\n- Two A/B tests to run (subject lines and CTA phrasing)\n\nUse {kpi_targets} if provided; otherwise propose realistic initial targets."
+    },
+    {
+      id: "9",
+      type: "DEFAULT",
+      label: "🧩 Paste-Ready Marketing Plan Addendum",
+      prompt: "Compile everything into a single “Email Drip Campaign System” addendum that can be pasted into a Business + Marketing Plan.\n\nStructure:\n- Overview (why repeated touches matter)\n- Six-stage framework (welcome, education, social proof, soft ask, urgency nudge, re-engagement)\n- Trigger Sources and Sequence Assignment\n- 30-Day Lead Nurture Table\n- Email Drafts\n- Text Companions\n- Automation Rules\n- KPIs to Track\n- Bottom Line (one paragraph summarizing: lead -> tag -> drip -> booking -> task -> pipeline)\n\nMake it clean, skimmable, and implementation-ready."
+    },
+    { id: "10", type: "END", label: "END: Addendum Complete", prompt: "Halt node executor" }
+  ];
+
   const WORKFLOW_NODES =
     autoloopPreset === "seo"
       ? SEO_WORKFLOW_NODES
       : autoloopPreset === "codebase"
       ? CODEBASE_WORKFLOW_NODES
+      : autoloopPreset === "daily_brief"
+      ? DAILY_BRIEF_WORKFLOW_NODES
+      : autoloopPreset === "email_drip"
+      ? EMAIL_DRIP_WORKFLOW_NODES
       : customWorkflowNodes;
 
   // Reset loop whenever preset changes
@@ -597,6 +806,22 @@ export default function LatimoreWorkspace() {
       setNodeExecutionLogs([
         `System: AutoLoop SEO Course Compiler parameters loaded.`,
         `System: Awaiting trigger command of Outline Node.`
+      ]);
+    } else if (autoloopPreset === "daily_brief") {
+      setAutoloopOutputs({
+        "1": `# Daily Marketing Command Brief Initialized\n\n- **Status**: START node reached\n- **Brief Date**: ${dailyBriefVars.BRIEF_DATE}\n- **Community Focus**: ${dailyBriefVars.COMMUNITY_FOCUS}\n- **Timestamp**: ${new Date().toLocaleString()}`
+      });
+      setNodeExecutionLogs([
+        `System: Daily Marketing Command Brief parameters loaded.`,
+        `System: Awaiting trigger command of Daily Context Setup Node.`
+      ]);
+    } else if (autoloopPreset === "email_drip") {
+      setAutoloopOutputs({
+        "1": `# Email Drip Campaign Engine Initialized\n\n- **Status**: START node reached\n- **Business**: ${emailDripVars.business_name}\n- **Brand**: ${emailDripVars.brand_name}\n- **Timestamp**: ${new Date().toLocaleString()}`
+      });
+      setNodeExecutionLogs([
+        `System: Email Drip Campaign Engine parameters loaded.`,
+        `System: Awaiting trigger command of Business + Plan Context Lock Node.`
       ]);
     } else {
       setAutoloopOutputs({
@@ -640,30 +865,42 @@ export default function LatimoreWorkspace() {
 
     setIsExecutingNode(true);
 
-    // Substitute prompt template variables dynamically
+    // Substitute prompt template variables dynamically, scoped to the active preset
     let substitutedPrompt = node.prompt || "";
-    substitutedPrompt = substitutedPrompt
-      .replace(/{course_topic}/g, autoloopTopic)
-      .replace(/{brand_name}/g, autoloopBrand)
-      .replace(/{course_name}/g, autoloopCourseName)
-      .replace(/{desired_outcome}/g, autoloopOutcome)
-      .replace(/{target_audience}/g, autoloopAudience)
-      .replace(/{tone}/g, autoloopTone)
-      .replace(/{timestamp}/g, new Date().toLocaleString())
-      .replace(/{PROJECT_NAME}/g, auditProjectName)
-      .replace(/{REPOSITORY_CONTEXT}/g, auditRepositoryContext)
-      .replace(/{PRIMARY_LANGUAGE}/g, auditPrimaryLanguage)
-      .replace(/{FRAMEWORKS}/g, auditFrameworks)
-      .replace(/{BRANCH_NAME}/g, auditBranchName)
-      .replace(/{KNOWN_ISSUES}/g, auditKnownIssues)
-      .replace(/{CODEBASE_STANDARDS}/g, auditCodebaseStandards)
-      .replace(/{AUDIT_FOCUS}/g, auditAuditFocus)
-      .replace(/{RECENT_CHANGES}/g, auditRecentChanges)
-      .replace(/{BUILD_COMMAND}/g, auditBuildCommand)
-      .replace(/{TEST_COMMAND}/g, auditTestCommand)
-      .replace(/{LINT_COMMAND}/g, auditLintCommand)
-      .replace(/{OUTPUT_FORMAT}/g, auditOutputFormat)
-      .replace(/{RUN_FREQUENCY}/g, auditRunFrequency);
+    if (autoloopPreset === "seo") {
+      substitutedPrompt = substitutedPrompt
+        .replace(/{course_topic}/g, autoloopTopic)
+        .replace(/{brand_name}/g, autoloopBrand)
+        .replace(/{course_name}/g, autoloopCourseName)
+        .replace(/{desired_outcome}/g, autoloopOutcome)
+        .replace(/{target_audience}/g, autoloopAudience)
+        .replace(/{tone}/g, autoloopTone)
+        .replace(/{timestamp}/g, new Date().toLocaleString());
+    } else if (autoloopPreset === "codebase") {
+      substitutedPrompt = substitutedPrompt
+        .replace(/{PROJECT_NAME}/g, auditProjectName)
+        .replace(/{REPOSITORY_CONTEXT}/g, auditRepositoryContext)
+        .replace(/{PRIMARY_LANGUAGE}/g, auditPrimaryLanguage)
+        .replace(/{FRAMEWORKS}/g, auditFrameworks)
+        .replace(/{BRANCH_NAME}/g, auditBranchName)
+        .replace(/{KNOWN_ISSUES}/g, auditKnownIssues)
+        .replace(/{CODEBASE_STANDARDS}/g, auditCodebaseStandards)
+        .replace(/{AUDIT_FOCUS}/g, auditAuditFocus)
+        .replace(/{RECENT_CHANGES}/g, auditRecentChanges)
+        .replace(/{BUILD_COMMAND}/g, auditBuildCommand)
+        .replace(/{TEST_COMMAND}/g, auditTestCommand)
+        .replace(/{LINT_COMMAND}/g, auditLintCommand)
+        .replace(/{OUTPUT_FORMAT}/g, auditOutputFormat)
+        .replace(/{RUN_FREQUENCY}/g, auditRunFrequency);
+    } else if (autoloopPreset === "daily_brief") {
+      Object.entries(dailyBriefVars).forEach(([key, val]) => {
+        substitutedPrompt = substitutedPrompt.split(`{${key}}`).join(val);
+      });
+    } else if (autoloopPreset === "email_drip") {
+      Object.entries(emailDripVars).forEach(([key, val]) => {
+        substitutedPrompt = substitutedPrompt.split(`{${key}}`).join(val);
+      });
+    }
 
     const logMsg = `[System Console - ${new Date().toLocaleTimeString()}] Prompting Gemini for ${node.label}...`;
     setNodeExecutionLogs((prev) => [...prev, logMsg]);
@@ -720,6 +957,26 @@ export default function LatimoreWorkspace() {
       text += `Frameworks: ${auditFrameworks}\n`;
       text += `Branch Name: ${auditBranchName}\n`;
       text += `Audit Focus: ${auditAuditFocus}\n`;
+    } else if (autoloopPreset === "daily_brief") {
+      filename = `autoloop-daily-marketing-brief-${dailyBriefVars.BRIEF_DATE.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-export.txt`;
+      text += `AUTOLOOP DAILY MARKETING COMMAND BRIEF EXPORT\n`;
+      text += `================================================================================\n`;
+      text += `Timestamp: ${new Date().toLocaleString()}\n`;
+      text += `Brief Date: ${dailyBriefVars.BRIEF_DATE}\n`;
+      text += `Target Audience: ${dailyBriefVars.TARGET_AUDIENCE}\n`;
+      text += `Community Focus: ${dailyBriefVars.COMMUNITY_FOCUS}\n`;
+      text += `Primary CTA: ${dailyBriefVars.PRIMARY_CTA}\n`;
+      text += `Secondary CTA: ${dailyBriefVars.SECONDARY_CTA}\n`;
+    } else if (autoloopPreset === "email_drip") {
+      filename = `autoloop-email-drip-${emailDripVars.business_name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-export.txt`;
+      text += `AUTOLOOP EMAIL DRIP CAMPAIGN ENGINE EXPORT\n`;
+      text += `================================================================================\n`;
+      text += `Timestamp: ${new Date().toLocaleString()}\n`;
+      text += `Business Name: ${emailDripVars.business_name}\n`;
+      text += `Brand Name: ${emailDripVars.brand_name}\n`;
+      text += `Owner: ${emailDripVars.owner_name}\n`;
+      text += `Service Area: ${emailDripVars.service_area}\n`;
+      text += `Booking Link: ${emailDripVars.booking_link}\n`;
     } else {
       filename = `autoloop-${autoloopCourseName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-export.txt`;
       text += `AUTOLOOP COURSE COMPILER EXPORT REPORT\n`;
@@ -6393,6 +6650,8 @@ Founder & CEO, Latimore Life & Legacy
                             >
                               <option value="seo">🎓 SEO Lead Magnet Compiler</option>
                               <option value="codebase">🧠 Codebase Audit & Fix Loop</option>
+                              <option value="daily_brief">📅 Daily Marketing Command Brief</option>
+                              <option value="email_drip">✉️ Email Drip Campaign Engine</option>
                               {customWorkflowNodes.length > 0 && (
                                 <option value="custom">📁 Custom Uploaded Chain</option>
                               )}
@@ -6630,6 +6889,64 @@ Founder & CEO, Latimore Life & Legacy
                           </div>
                         )}
 
+                        {/* Preset D: Daily Marketing Command Brief Fields */}
+                        {autoloopPreset === "daily_brief" && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs max-h-[420px] overflow-y-auto pr-1 custom-scrollbar">
+                            {DAILY_BRIEF_FIELDS.map((field) => (
+                              <div
+                                key={field.key}
+                                className={`flex flex-col gap-1 ${field.multiline ? "sm:col-span-2" : ""}`}
+                              >
+                                <label className="text-[10px] font-bold text-slate-400">{field.label}</label>
+                                {field.multiline ? (
+                                  <textarea
+                                    rows={2}
+                                    value={dailyBriefVars[field.key]}
+                                    onChange={(e) => updateDailyBriefVar(field.key, e.target.value)}
+                                    className="bg-slate-950 border border-slate-800 text-slate-200 rounded px-2.5 py-1.5 focus:border-amber-500 focus:outline-none focus:ring-0 custom-scrollbar text-[11px]"
+                                  />
+                                ) : (
+                                  <input
+                                    type="text"
+                                    value={dailyBriefVars[field.key]}
+                                    onChange={(e) => updateDailyBriefVar(field.key, e.target.value)}
+                                    className="bg-slate-950 border border-slate-800 text-slate-200 rounded px-2.5 py-1.5 focus:border-amber-500 focus:outline-none"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Preset E: Email Drip Campaign Engine Fields */}
+                        {autoloopPreset === "email_drip" && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs max-h-[420px] overflow-y-auto pr-1 custom-scrollbar">
+                            {EMAIL_DRIP_FIELDS.map((field) => (
+                              <div
+                                key={field.key}
+                                className={`flex flex-col gap-1 ${field.multiline ? "sm:col-span-2" : ""}`}
+                              >
+                                <label className="text-[10px] font-bold text-slate-400">{field.label}</label>
+                                {field.multiline ? (
+                                  <textarea
+                                    rows={2}
+                                    value={emailDripVars[field.key]}
+                                    onChange={(e) => updateEmailDripVar(field.key, e.target.value)}
+                                    className="bg-slate-950 border border-slate-800 text-slate-200 rounded px-2.5 py-1.5 focus:border-amber-500 focus:outline-none focus:ring-0 custom-scrollbar text-[11px]"
+                                  />
+                                ) : (
+                                  <input
+                                    type="text"
+                                    value={emailDripVars[field.key]}
+                                    onChange={(e) => updateEmailDripVar(field.key, e.target.value)}
+                                    className="bg-slate-950 border border-slate-800 text-slate-200 rounded px-2.5 py-1.5 focus:border-amber-500 focus:outline-none"
+                                  />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
                         {/* Preset C: Custom Uploaded Field Notifications */}
                         {autoloopPreset === "custom" && (
                           <div className="p-3 bg-slate-950 border border-slate-850 rounded text-xs leading-relaxed text-slate-400 font-mono">
@@ -6689,6 +7006,22 @@ Founder & CEO, Latimore Life & Legacy
                               setNodeExecutionLogs([
                                 `System: SEO Workspace reset completed. Change Log rebooted.`,
                                 `System: Awaiting trigger command of Outline Node.`
+                              ]);
+                            } else if (autoloopPreset === "daily_brief") {
+                              setAutoloopOutputs({
+                                "1": `# Daily Marketing Command Brief Initialized\n\n- **Status**: START node reached\n- **Brief Date**: ${dailyBriefVars.BRIEF_DATE}\n- **Community Focus**: ${dailyBriefVars.COMMUNITY_FOCUS}\n- **Timestamp**: ${new Date().toLocaleString()}`
+                              });
+                              setNodeExecutionLogs([
+                                `System: Daily Marketing Command Brief workspace reset completed.`,
+                                `System: Awaiting trigger command of Daily Context Setup Node.`
+                              ]);
+                            } else if (autoloopPreset === "email_drip") {
+                              setAutoloopOutputs({
+                                "1": `# Email Drip Campaign Engine Initialized\n\n- **Status**: START node reached\n- **Business**: ${emailDripVars.business_name}\n- **Brand**: ${emailDripVars.brand_name}\n- **Timestamp**: ${new Date().toLocaleString()}`
+                              });
+                              setNodeExecutionLogs([
+                                `System: Email Drip Campaign Engine workspace reset completed.`,
+                                `System: Awaiting trigger command of Business + Plan Context Lock Node.`
                               ]);
                             } else {
                               setAutoloopOutputs({
