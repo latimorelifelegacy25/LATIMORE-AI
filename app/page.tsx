@@ -329,6 +329,9 @@ export default function LatimoreWorkspace() {
 
   const [autoloopPreset, setAutoloopPreset] = useState<"seo" | "codebase" | "custom">("seo");
   const [customWorkflowNodes, setCustomWorkflowNodes] = useState<any[]>([]);
+  const [customWorkflowName, setCustomWorkflowName] = useState<string>("");
+  const [customWorkflowVariables, setCustomWorkflowVariables] = useState<Record<string, string>>({});
+  const [isLoadingWorkflowPreset, setIsLoadingWorkflowPreset] = useState(false);
 
   // Codebase Preset States (Always-Updated Codebase Audit & Fix Loop parameters)
   const [auditProjectName, setAuditProjectName] = useState("Latimore Hub OS");
@@ -609,6 +612,56 @@ export default function LatimoreWorkspace() {
     }
   }, [autoloopPreset]);
 
+  // Apply a parsed gptcha.in workflow export as the active custom AutoLoop chain
+  const applyImportedWorkflow = (parsed: any) => {
+    let nodes: any[] | null = null;
+    if (parsed?.workflow && Array.isArray(parsed.workflow.nodes)) {
+      nodes = parsed.workflow.nodes;
+    } else if (Array.isArray(parsed?.nodes)) {
+      nodes = parsed.nodes;
+    }
+
+    if (!nodes) {
+      alert("Invalid gptcha.in JSON file format. Nodes array not found.");
+      return;
+    }
+
+    const variables: Record<string, string> = {};
+    const stateKeys = parsed?.workflow?.state?.keys;
+    if (Array.isArray(stateKeys)) {
+      stateKeys.forEach((key: any) => {
+        if (!key?.name) return;
+        const value = Array.isArray(key.values) ? key.values[0] : key.values;
+        variables[key.name] = value !== undefined && value !== null ? String(value) : "";
+      });
+    }
+
+    const workflowName = parsed?.metadata?.name || "Custom workflow";
+    setCustomWorkflowNodes(nodes);
+    setCustomWorkflowVariables(variables);
+    setCustomWorkflowName(workflowName);
+    setAutoloopPreset("custom");
+    setNodeExecutionLogs((prev) => [
+      ...prev,
+      `System: Successfully imported Custom GPT-Chain "${workflowName}" containing ${nodes!.length} nodes` +
+        (Object.keys(variables).length > 0 ? ` with ${Object.keys(variables).length} template variables!` : `!`)
+    ]);
+  };
+
+  // Fetch a bundled Latimore workflow preset (gptcha.in JSON) and load it as the custom chain
+  const loadBundledWorkflowPreset = async (path: string) => {
+    setIsLoadingWorkflowPreset(true);
+    try {
+      const res = await fetch(path);
+      const parsed = await res.json();
+      applyImportedWorkflow(parsed);
+    } catch (err: any) {
+      alert("Failed to load workflow preset: " + err.message);
+    } finally {
+      setIsLoadingWorkflowPreset(false);
+    }
+  };
+
   const handleExecuteNode = async (index: number) => {
     if (index >= WORKFLOW_NODES.length) return;
     const node = WORKFLOW_NODES[index];
@@ -642,6 +695,13 @@ export default function LatimoreWorkspace() {
 
     // Substitute prompt template variables dynamically
     let substitutedPrompt = node.prompt || "";
+
+    // Imported gptcha.in workflows carry their own named variables (from workflow.state.keys).
+    // Apply those first so they take precedence over the generic preset fallbacks below.
+    Object.entries(customWorkflowVariables).forEach(([key, value]) => {
+      substitutedPrompt = substitutedPrompt.split(`{${key}}`).join(value);
+    });
+
     substitutedPrompt = substitutedPrompt
       .replace(/{course_topic}/g, autoloopTopic)
       .replace(/{brand_name}/g, autoloopBrand)
@@ -6394,10 +6454,10 @@ Founder & CEO, Latimore Life & Legacy
                               <option value="seo">🎓 SEO Lead Magnet Compiler</option>
                               <option value="codebase">🧠 Codebase Audit & Fix Loop</option>
                               {customWorkflowNodes.length > 0 && (
-                                <option value="custom">📁 Custom Uploaded Chain</option>
+                                <option value="custom">📁 {customWorkflowName || "Custom Uploaded Chain"}</option>
                               )}
                             </select>
-                            
+
                             <button
                               onClick={() => document.getElementById("autoloop-json-uploader")?.click()}
                               className="bg-slate-950 hover:bg-slate-850 text-slate-300 p-2 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-slate-700 hover:text-white"
@@ -6407,7 +6467,27 @@ Founder & CEO, Latimore Life & Legacy
                               <span className="text-[10px] font-mono shrink-0 hidden sm:inline">Import</span>
                             </button>
                           </div>
-                          
+
+                          {/* Quick-load bundled Latimore OS gptcha.in presets */}
+                          <div className="flex gap-1.5">
+                            <button
+                              onClick={() => loadBundledWorkflowPreset("/workflow-presets/latimore-daily-marketing-brief.json")}
+                              disabled={isLoadingWorkflowPreset}
+                              className="flex-1 bg-slate-950 hover:bg-slate-850 disabled:opacity-50 text-slate-300 px-2 py-1.5 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-amber-500/60 hover:text-white text-[10px] font-mono"
+                              title="Load the Daily Marketing Command Brief gptcha.in preset"
+                            >
+                              📣 Daily Marketing Brief
+                            </button>
+                            <button
+                              onClick={() => loadBundledWorkflowPreset("/workflow-presets/latimore-email-drip-campaign.json")}
+                              disabled={isLoadingWorkflowPreset}
+                              className="flex-1 bg-slate-950 hover:bg-slate-850 disabled:opacity-50 text-slate-300 px-2 py-1.5 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-amber-500/60 hover:text-white text-[10px] font-mono"
+                              title="Load the Email Drip Campaign Engine gptcha.in preset"
+                            >
+                              ✉️ Email Drip Campaign
+                            </button>
+                          </div>
+
                           <input
                             type="file"
                             id="autoloop-json-uploader"
@@ -6420,28 +6500,13 @@ Founder & CEO, Latimore Life & Legacy
                               reader.onload = (event) => {
                                 try {
                                   const parsed = JSON.parse(event.target?.result as string);
-                                  if (parsed.workflow && Array.isArray(parsed.workflow.nodes)) {
-                                    setCustomWorkflowNodes(parsed.workflow.nodes);
-                                    setAutoloopPreset("custom");
-                                    setNodeExecutionLogs((prev) => [
-                                      ...prev,
-                                      `System: Successfully imported Custom GPT-Chain "${parsed.metadata?.name || 'Custom workflow'}" containing ${parsed.workflow.nodes.length} nodes!`
-                                    ]);
-                                  } else if (Array.isArray(parsed.nodes)) {
-                                    setCustomWorkflowNodes(parsed.nodes);
-                                    setAutoloopPreset("custom");
-                                    setNodeExecutionLogs((prev) => [
-                                      ...prev,
-                                      `System: Successfully imported Custom Node list containing ${parsed.nodes.length} nodes!`
-                                    ]);
-                                  } else {
-                                    alert("Invalid gptcha.in JSON file format. Nodes array not found.");
-                                  }
+                                  applyImportedWorkflow(parsed);
                                 } catch (err: any) {
                                   alert("Failed to parse JSON: " + err.message);
                                 }
                               };
                               reader.readAsText(file);
+                              e.target.value = "";
                             }}
                           />
                         </div>
@@ -6632,8 +6697,31 @@ Founder & CEO, Latimore Life & Legacy
 
                         {/* Preset C: Custom Uploaded Field Notifications */}
                         {autoloopPreset === "custom" && (
-                          <div className="p-3 bg-slate-950 border border-slate-850 rounded text-xs leading-relaxed text-slate-400 font-mono">
-                            <span className="text-amber-400 font-bold">Custom Workflow Loaded</span>: Active gptcha.in JSON layout mapping <span className="text-white">{customWorkflowNodes.length} nodes</span> successfully. No additional parameters are required. Variables from the template (e.g. <code className="text-amber-500">{`{PROJECT_NAME}`}</code>, <code className="text-amber-500">{`{course_topic}`}</code>) will fallback to active parameters during execution.
+                          <div className="flex flex-col gap-3">
+                            <div className="p-3 bg-slate-950 border border-slate-850 rounded text-xs leading-relaxed text-slate-400 font-mono">
+                              <span className="text-amber-400 font-bold">Custom Workflow Loaded</span>: {customWorkflowName ? <span className="text-white">{customWorkflowName}</span> : "Active gptcha.in JSON layout"} mapping <span className="text-white">{customWorkflowNodes.length} nodes</span> successfully.{" "}
+                              {Object.keys(customWorkflowVariables).length > 0
+                                ? "Edit the template variables below before running — any placeholders left unmapped fall back to the active SEO/Codebase parameters."
+                                : <>No additional parameters are required. Variables from the template (e.g. <code className="text-amber-500">{`{PROJECT_NAME}`}</code>, <code className="text-amber-500">{`{course_topic}`}</code>) will fall back to active parameters during execution.</>}
+                            </div>
+
+                            {Object.keys(customWorkflowVariables).length > 0 && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs max-h-72 overflow-y-auto custom-scrollbar pr-1">
+                                {Object.entries(customWorkflowVariables).map(([key, value]) => (
+                                  <div key={key} className="flex flex-col gap-1">
+                                    <label className="text-[10px] font-bold text-slate-400">{`{${key}}`}</label>
+                                    <textarea
+                                      rows={value.length > 80 ? 3 : 1}
+                                      value={value}
+                                      onChange={(e) =>
+                                        setCustomWorkflowVariables((prev) => ({ ...prev, [key]: e.target.value }))
+                                      }
+                                      className="bg-slate-950 border border-slate-800 text-slate-200 rounded px-2.5 py-1.5 focus:border-amber-500 focus:outline-none focus:ring-0 custom-scrollbar text-[11px]"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )}
 
