@@ -329,6 +329,9 @@ export default function LatimoreWorkspace() {
 
   const [autoloopPreset, setAutoloopPreset] = useState<"seo" | "codebase" | "custom">("seo");
   const [customWorkflowNodes, setCustomWorkflowNodes] = useState<any[]>([]);
+  const [customWorkflowName, setCustomWorkflowName] = useState<string>("");
+  const [customWorkflowVariables, setCustomWorkflowVariables] = useState<Record<string, string>>({});
+  const [isLoadingWorkflowPreset, setIsLoadingWorkflowPreset] = useState(false);
 
   // Codebase Preset States (Always-Updated Codebase Audit & Fix Loop parameters)
   const [auditProjectName, setAuditProjectName] = useState("Latimore Hub OS");
@@ -609,6 +612,56 @@ export default function LatimoreWorkspace() {
     }
   }, [autoloopPreset]);
 
+  // Apply a parsed gptcha.in workflow export as the active custom AutoLoop chain
+  const applyImportedWorkflow = (parsed: any) => {
+    let nodes: any[] | null = null;
+    if (parsed?.workflow && Array.isArray(parsed.workflow.nodes)) {
+      nodes = parsed.workflow.nodes;
+    } else if (Array.isArray(parsed?.nodes)) {
+      nodes = parsed.nodes;
+    }
+
+    if (!nodes) {
+      alert("Invalid gptcha.in JSON file format. Nodes array not found.");
+      return;
+    }
+
+    const variables: Record<string, string> = {};
+    const stateKeys = parsed?.workflow?.state?.keys;
+    if (Array.isArray(stateKeys)) {
+      stateKeys.forEach((key: any) => {
+        if (!key?.name) return;
+        const value = Array.isArray(key.values) ? key.values[0] : key.values;
+        variables[key.name] = value !== undefined && value !== null ? String(value) : "";
+      });
+    }
+
+    const workflowName = parsed?.metadata?.name || "Custom workflow";
+    setCustomWorkflowNodes(nodes);
+    setCustomWorkflowVariables(variables);
+    setCustomWorkflowName(workflowName);
+    setAutoloopPreset("custom");
+    setNodeExecutionLogs((prev) => [
+      ...prev,
+      `System: Successfully imported Custom GPT-Chain "${workflowName}" containing ${nodes!.length} nodes` +
+        (Object.keys(variables).length > 0 ? ` with ${Object.keys(variables).length} template variables!` : `!`)
+    ]);
+  };
+
+  // Fetch a bundled Latimore workflow preset (gptcha.in JSON) and load it as the custom chain
+  const loadBundledWorkflowPreset = async (path: string) => {
+    setIsLoadingWorkflowPreset(true);
+    try {
+      const res = await fetch(path);
+      const parsed = await res.json();
+      applyImportedWorkflow(parsed);
+    } catch (err: any) {
+      alert("Failed to load workflow preset: " + err.message);
+    } finally {
+      setIsLoadingWorkflowPreset(false);
+    }
+  };
+
   const handleExecuteNode = async (index: number) => {
     if (index >= WORKFLOW_NODES.length) return;
     const node = WORKFLOW_NODES[index];
@@ -642,6 +695,13 @@ export default function LatimoreWorkspace() {
 
     // Substitute prompt template variables dynamically
     let substitutedPrompt = node.prompt || "";
+
+    // Imported gptcha.in workflows carry their own named variables (from workflow.state.keys).
+    // Apply those first so they take precedence over the generic preset fallbacks below.
+    Object.entries(customWorkflowVariables).forEach(([key, value]) => {
+      substitutedPrompt = substitutedPrompt.split(`{${key}}`).join(value);
+    });
+
     substitutedPrompt = substitutedPrompt
       .replace(/{course_topic}/g, autoloopTopic)
       .replace(/{brand_name}/g, autoloopBrand)
@@ -1112,6 +1172,7 @@ Founder & CEO, Latimore Life & Legacy
     showKPIs: true,
     showCharts: true,
     showPAHS: true,
+    showBusinessKPIs: true,
     showInsights: true,
     showSentiment: true,
     showScheduler: true,
@@ -4972,6 +5033,15 @@ Founder & CEO, Latimore Life & Legacy
                     <label className="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
                       <input
                         type="checkbox"
+                        checked={socialWidgets.showBusinessKPIs}
+                        onChange={(e) => setSocialWidgets(prev => ({ ...prev, showBusinessKPIs: e.target.checked }))}
+                        className="rounded accent-amber-500 bg-slate-950 h-3.5 w-3.5 border-slate-800"
+                      />
+                      <span>Year 1 KPI Tracker</span>
+                    </label>
+                    <label className="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                      <input
+                        type="checkbox"
                         checked={socialWidgets.showInsights}
                         onChange={(e) => setSocialWidgets(prev => ({ ...prev, showInsights: e.target.checked }))}
                         className="rounded accent-amber-500 bg-slate-950 h-3.5 w-3.5 border-slate-800"
@@ -5452,6 +5522,188 @@ Founder & CEO, Latimore Life & Legacy
                               </button>
                             </div>
                           ))}
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
+
+                {/* 4.5 YEAR 1 BUSINESS KPI TRACKER */}
+                {socialWidgets.showBusinessKPIs && (
+                  <div className="lg:col-span-12 flex flex-col gap-5 print:hidden w-full">
+
+                    {/* Header */}
+                    <div className="bg-gradient-to-br from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/20 rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className="text-[9px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 text-emerald-400 font-bold uppercase tracking-wider">12-Month Strategic Calendar</span>
+                          <span className="text-[10px] bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-slate-400 font-bold uppercase tracking-wider">Apr 2026 — Mar 2027</span>
+                        </div>
+                        <h4 className="text-sm font-bold text-white uppercase tracking-wide">Year 1 Business KPI Tracker</h4>
+                        <p className="text-[11px] text-slate-400 mt-1 leading-relaxed max-w-2xl font-sans">
+                          Revenue and lead targets from the Year 1 launch calendar, tracked against current actuals across all lead sources. Figures are illustrative until synced with live CRM totals.
+                        </p>
+                      </div>
+                      <div className="shrink-0 flex items-center gap-3 bg-slate-950/70 border border-slate-800 px-4 py-3 rounded-xl text-xs font-mono">
+                        <div className="text-center">
+                          <div className="text-emerald-400 font-bold text-base">21%</div>
+                          <div className="text-[9px] text-slate-500 uppercase">Revenue to Goal</div>
+                        </div>
+                        <div className="h-7 w-[1px] bg-slate-800" />
+                        <div className="text-center">
+                          <div className="text-amber-400 font-bold text-base">25%</div>
+                          <div className="text-[9px] text-slate-500 uppercase">Leads to Goal</div>
+                        </div>
+                        <div className="h-7 w-[1px] bg-slate-800" />
+                        <div className="text-center">
+                          <div className="text-white font-bold text-base">5 / 44</div>
+                          <div className="text-[9px] text-slate-500 uppercase">Clients Closed</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+                      {/* Stat cards */}
+                      <div className="lg:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {[
+                          { label: "Total Leads YTD", value: "46", sub: "Target: 187", icon: Target, color: "text-amber-300" },
+                          { label: "Revenue YTD", value: "$20,700", sub: "Target: $98,000", icon: DollarSign, color: "text-emerald-300" },
+                          { label: "Clients Closed", value: "5", sub: "Target: 44 (Year 1)", icon: CheckSquare, color: "text-white" },
+                          { label: "PAHS Leads", value: "71", sub: "255 booth visitors", icon: Activity, color: "text-rose-300" },
+                        ].map((stat) => (
+                          <div key={stat.label} className="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col gap-1 shadow-sm font-mono relative overflow-hidden">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{stat.label}</span>
+                              <stat.icon className="h-3.5 w-3.5 text-slate-600" />
+                            </div>
+                            <span className={`text-xl font-bold tracking-tight mt-1 ${stat.color}`}>{stat.value}</span>
+                            <p className="text-[9px] text-slate-500 mt-1 truncate">{stat.sub}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Year 1 Progress bars */}
+                      <div className="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-5 font-mono flex flex-col gap-4">
+                        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+                          <Target className="h-4 w-4 text-emerald-400" />
+                          <h5 className="text-xs font-bold text-white uppercase tracking-wider">Year 1 Progress — Key Metrics</h5>
+                        </div>
+                        {[
+                          { label: "Annual Revenue", fmt: "$20,700 / $98,000", pctVal: 21 },
+                          { label: "Total Leads", fmt: "46 / 187", pctVal: 25 },
+                          { label: "Clients Closed", fmt: "5 / 44", pctVal: 11 },
+                          { label: "PAHS Booth Visitors", fmt: "255 / 500 (season target)", pctVal: 51 },
+                          { label: "PAHS Leads Captured", fmt: "71 / 150 (season target)", pctVal: 47 },
+                          { label: "Policies from PAHS", fmt: "11 / 20 (season target)", pctVal: 55 },
+                        ].map((item) => (
+                          <div key={item.label}>
+                            <div className="flex justify-between items-center mb-1 text-[11px]">
+                              <span className="font-bold text-slate-400 uppercase tracking-wide">{item.label}</span>
+                              <span className="text-white font-bold">{item.fmt}</span>
+                            </div>
+                            <div className="w-full bg-slate-950 h-1.5 rounded overflow-hidden">
+                              <div
+                                className={`h-full rounded transition-all ${item.pctVal >= 80 ? "bg-emerald-500" : item.pctVal >= 50 ? "bg-amber-500" : "bg-blue-400"}`}
+                                style={{ width: `${item.pctVal}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Lead Sources breakdown */}
+                      <div className="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-5 font-mono flex flex-col gap-4">
+                        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+                          <PieChartIcon className="h-4 w-4 text-teal-400" />
+                          <h5 className="text-xs font-bold text-white uppercase tracking-wider">Lead Sources — Year to Date</h5>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                          <div className="h-40 w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <PieChart>
+                                <Pie
+                                  data={[
+                                    { source: "Google Business Profile", count: 12 },
+                                    { source: "Fillout Form (Website)", count: 8 },
+                                    { source: "Facebook / Social Media", count: 6 },
+                                    { source: "Referrals", count: 9 },
+                                    { source: "PAHS Game Day", count: 7 },
+                                    { source: "Direct / Phone", count: 4 },
+                                  ]}
+                                  cx="50%"
+                                  cy="50%"
+                                  innerRadius={36}
+                                  outerRadius={60}
+                                  paddingAngle={3}
+                                  dataKey="count"
+                                >
+                                  {["#4285F4", "#C49A6C", "#1877F2", "#94a3b8", "#8B1A1A", "#27AE60"].map((color, index) => (
+                                    <Cell key={`lead-source-${index}`} fill={color} />
+                                  ))}
+                                </Pie>
+                                <Tooltip contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", fontSize: 11 }} />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            {[
+                              { source: "Google Business Profile", count: 12, color: "#4285F4", icon: "🔍" },
+                              { source: "Fillout Form (Website)", count: 8, color: "#C49A6C", icon: "📋" },
+                              { source: "Facebook / Social Media", count: 6, color: "#1877F2", icon: "📱" },
+                              { source: "Referrals", count: 9, color: "#94a3b8", icon: "🤝" },
+                              { source: "PAHS Game Day", count: 7, color: "#8B1A1A", icon: "🏈" },
+                              { source: "Direct / Phone", count: 4, color: "#27AE60", icon: "📞" },
+                            ].map((src) => (
+                              <div key={src.source} className="flex items-center justify-between text-[10.5px] font-mono">
+                                <span className="flex items-center gap-1.5 text-slate-300"><span>{src.icon}</span>{src.source}</span>
+                                <strong style={{ color: src.color }}>{src.count}</strong>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Monthly Revenue: Actual vs Target */}
+                      <div className="lg:col-span-12 bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm font-mono">
+                        <div className="flex items-center justify-between border-b border-slate-850 pb-3 mb-4">
+                          <div className="flex items-center gap-2">
+                            <DollarSign className="h-4 w-4 text-emerald-400" />
+                            <h4 className="text-xs font-bold text-white uppercase tracking-wider">Monthly Revenue — Actual vs Target</h4>
+                          </div>
+                          <span className="text-[10px] text-slate-500 uppercase">Year 1 Goal: $98,000 · 187 Leads</span>
+                        </div>
+                        <div className="h-64 w-full">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              data={[
+                                { month: "Apr '26", target: 2000, actual: 1800 },
+                                { month: "May '26", target: 3000, actual: 2400 },
+                                { month: "Jun '26", target: 5000, actual: 4200 },
+                                { month: "Jul '26", target: 6000, actual: 5100 },
+                                { month: "Aug '26", target: 8000, actual: 7200 },
+                                { month: "Sep '26", target: 10000, actual: 0 },
+                                { month: "Oct '26", target: 12000, actual: 0 },
+                                { month: "Nov '26", target: 12000, actual: 0 },
+                                { month: "Dec '26", target: 10000, actual: 0 },
+                                { month: "Jan '27", target: 8000, actual: 0 },
+                                { month: "Feb '27", target: 10000, actual: 0 },
+                                { month: "Mar '27", target: 12000, actual: 0 },
+                              ]}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                              <XAxis dataKey="month" stroke="#64748b" fontSize={10} tickLine={false} />
+                              <YAxis stroke="#64748b" fontSize={10} tickLine={false} tickFormatter={(v) => `$${v / 1000}k`} />
+                              <Tooltip
+                                contentStyle={{ backgroundColor: "#020617", borderColor: "#1e293b", fontSize: 11 }}
+                                labelStyle={{ color: "#ffffff", fontWeight: 700 }}
+                              />
+                              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 10, paddingTop: 8, color: "#94a3b8" }} />
+                              <Bar dataKey="target" name="Target" fill="#334155" radius={[4, 4, 0, 0]} />
+                              <Bar dataKey="actual" name="Actual" fill="#C49A6C" radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                          </ResponsiveContainer>
                         </div>
                       </div>
 
@@ -6394,10 +6646,10 @@ Founder & CEO, Latimore Life & Legacy
                               <option value="seo">🎓 SEO Lead Magnet Compiler</option>
                               <option value="codebase">🧠 Codebase Audit & Fix Loop</option>
                               {customWorkflowNodes.length > 0 && (
-                                <option value="custom">📁 Custom Uploaded Chain</option>
+                                <option value="custom">📁 {customWorkflowName || "Custom Uploaded Chain"}</option>
                               )}
                             </select>
-                            
+
                             <button
                               onClick={() => document.getElementById("autoloop-json-uploader")?.click()}
                               className="bg-slate-950 hover:bg-slate-850 text-slate-300 p-2 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-slate-700 hover:text-white"
@@ -6407,7 +6659,27 @@ Founder & CEO, Latimore Life & Legacy
                               <span className="text-[10px] font-mono shrink-0 hidden sm:inline">Import</span>
                             </button>
                           </div>
-                          
+
+                          {/* Quick-load bundled Latimore OS gptcha.in presets */}
+                          <div className="flex gap-1.5">
+                            <button
+                              onClick={() => loadBundledWorkflowPreset("/workflow-presets/latimore-daily-marketing-brief.json")}
+                              disabled={isLoadingWorkflowPreset}
+                              className="flex-1 bg-slate-950 hover:bg-slate-850 disabled:opacity-50 text-slate-300 px-2 py-1.5 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-amber-500/60 hover:text-white text-[10px] font-mono"
+                              title="Load the Daily Marketing Command Brief gptcha.in preset"
+                            >
+                              📣 Daily Marketing Brief
+                            </button>
+                            <button
+                              onClick={() => loadBundledWorkflowPreset("/workflow-presets/latimore-email-drip-campaign.json")}
+                              disabled={isLoadingWorkflowPreset}
+                              className="flex-1 bg-slate-950 hover:bg-slate-850 disabled:opacity-50 text-slate-300 px-2 py-1.5 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-amber-500/60 hover:text-white text-[10px] font-mono"
+                              title="Load the Email Drip Campaign Engine gptcha.in preset"
+                            >
+                              ✉️ Email Drip Campaign
+                            </button>
+                          </div>
+
                           <input
                             type="file"
                             id="autoloop-json-uploader"
@@ -6420,28 +6692,13 @@ Founder & CEO, Latimore Life & Legacy
                               reader.onload = (event) => {
                                 try {
                                   const parsed = JSON.parse(event.target?.result as string);
-                                  if (parsed.workflow && Array.isArray(parsed.workflow.nodes)) {
-                                    setCustomWorkflowNodes(parsed.workflow.nodes);
-                                    setAutoloopPreset("custom");
-                                    setNodeExecutionLogs((prev) => [
-                                      ...prev,
-                                      `System: Successfully imported Custom GPT-Chain "${parsed.metadata?.name || 'Custom workflow'}" containing ${parsed.workflow.nodes.length} nodes!`
-                                    ]);
-                                  } else if (Array.isArray(parsed.nodes)) {
-                                    setCustomWorkflowNodes(parsed.nodes);
-                                    setAutoloopPreset("custom");
-                                    setNodeExecutionLogs((prev) => [
-                                      ...prev,
-                                      `System: Successfully imported Custom Node list containing ${parsed.nodes.length} nodes!`
-                                    ]);
-                                  } else {
-                                    alert("Invalid gptcha.in JSON file format. Nodes array not found.");
-                                  }
+                                  applyImportedWorkflow(parsed);
                                 } catch (err: any) {
                                   alert("Failed to parse JSON: " + err.message);
                                 }
                               };
                               reader.readAsText(file);
+                              e.target.value = "";
                             }}
                           />
                         </div>
@@ -6632,8 +6889,31 @@ Founder & CEO, Latimore Life & Legacy
 
                         {/* Preset C: Custom Uploaded Field Notifications */}
                         {autoloopPreset === "custom" && (
-                          <div className="p-3 bg-slate-950 border border-slate-850 rounded text-xs leading-relaxed text-slate-400 font-mono">
-                            <span className="text-amber-400 font-bold">Custom Workflow Loaded</span>: Active gptcha.in JSON layout mapping <span className="text-white">{customWorkflowNodes.length} nodes</span> successfully. No additional parameters are required. Variables from the template (e.g. <code className="text-amber-500">{`{PROJECT_NAME}`}</code>, <code className="text-amber-500">{`{course_topic}`}</code>) will fallback to active parameters during execution.
+                          <div className="flex flex-col gap-3">
+                            <div className="p-3 bg-slate-950 border border-slate-850 rounded text-xs leading-relaxed text-slate-400 font-mono">
+                              <span className="text-amber-400 font-bold">Custom Workflow Loaded</span>: {customWorkflowName ? <span className="text-white">{customWorkflowName}</span> : "Active gptcha.in JSON layout"} mapping <span className="text-white">{customWorkflowNodes.length} nodes</span> successfully.{" "}
+                              {Object.keys(customWorkflowVariables).length > 0
+                                ? "Edit the template variables below before running — any placeholders left unmapped fall back to the active SEO/Codebase parameters."
+                                : <>No additional parameters are required. Variables from the template (e.g. <code className="text-amber-500">{`{PROJECT_NAME}`}</code>, <code className="text-amber-500">{`{course_topic}`}</code>) will fall back to active parameters during execution.</>}
+                            </div>
+
+                            {Object.keys(customWorkflowVariables).length > 0 && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs max-h-72 overflow-y-auto custom-scrollbar pr-1">
+                                {Object.entries(customWorkflowVariables).map(([key, value]) => (
+                                  <div key={key} className="flex flex-col gap-1">
+                                    <label className="text-[10px] font-bold text-slate-400">{`{${key}}`}</label>
+                                    <textarea
+                                      rows={value.length > 80 ? 3 : 1}
+                                      value={value}
+                                      onChange={(e) =>
+                                        setCustomWorkflowVariables((prev) => ({ ...prev, [key]: e.target.value }))
+                                      }
+                                      className="bg-slate-950 border border-slate-800 text-slate-200 rounded px-2.5 py-1.5 focus:border-amber-500 focus:outline-none focus:ring-0 custom-scrollbar text-[11px]"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )}
 
