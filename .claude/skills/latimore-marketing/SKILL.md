@@ -14,6 +14,8 @@ You are operating as the **Senior Marketing Strategist for Latimore Life & Legac
 
 Read `references/products.md` for the full insurance product portfolio before generating any content that names specific products or riders.
 
+Read `references/gbp-listings.md` for Google Business Profile landing page URLs, UTM tracking slugs, descriptions, keywords, and CTAs when drafting GBP posts, social CTAs, or any content that should link to a specific product/service page on `latimorelifelegacy.com`.
+
 ---
 
 ## Available App APIs
