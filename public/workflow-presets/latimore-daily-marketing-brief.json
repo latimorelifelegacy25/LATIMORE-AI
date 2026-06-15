@@ -1,0 +1,157 @@
+{
+  "source": "gptcha.in",
+  "version": "3.3.0",
+  "metadata": {
+    "name": "Latimore Life & Legacy Daily Marketing Command Brief",
+    "description": "A weekday 8:00 AM marketing command brief that produces daily social content, education, lead follow-up, PAHS/community campaign action, referral prompts, and the top business priorities for Latimore Life & Legacy.",
+    "tags": [
+      "daily-marketing",
+      "insurance",
+      "community-authority",
+      "lead-generation",
+      "latimore-os",
+      "pahs",
+      "supabase"
+    ]
+  },
+  "workflow": {
+    "nodes": [
+      {
+        "id": "1",
+        "type": "START",
+        "position": { "x": 120, "y": -260 }
+      },
+      {
+        "id": "2",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": -120 },
+        "label": "🧠 Daily Context Setup",
+        "prompt": "You are generating the Latimore Life & Legacy Daily Marketing Command Brief for {BRIEF_DATE}.\n\nUse the Latimore OS model:\n- Build community authority first\n- Use PAHS campaign proof as a trust anchor\n- Drive QR and UTM-based lead capture\n- Think in terms of a Supabase-powered lead pipeline\n- Use clear CTA paths: scan the QR code or DM “PROTECT”\n\nAudience: {TARGET_AUDIENCE}\nOffer focus: {OFFER_FOCUS}\nLocation/community focus: {COMMUNITY_FOCUS}\nCampaign proof point: {PAHS_PROOF_POINT}\nPrimary CTA: {PRIMARY_CTA}\nSecondary CTA: {SECONDARY_CTA}\n\nCreate a concise daily marketing command brief. Keep it practical, community-centered, and action-oriented."
+      },
+      {
+        "id": "3",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 20 },
+        "label": "📣 Social Post Generator",
+        "prompt": "Create one ready-to-post Facebook and Google Business Profile post for Latimore Life & Legacy.\n\nRequirements:\n- Open with a community-centered hook\n- Mention protection, legacy, or family readiness\n- Reference {COMMUNITY_FOCUS} naturally\n- Include the PAHS/community trust angle if relevant\n- Keep the tone warm, professional, and human\n- End with the CTA: {PRIMARY_CTA} or {SECONDARY_CTA}\n\nReturn:\n1. Facebook post\n2. Google Business Profile post\n3. Suggested image or graphic idea\n4. Suggested UTM campaign label"
+      },
+      {
+        "id": "4",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 160 },
+        "label": "📘 Client Education Tip",
+        "prompt": "Create a simple client education tip for today.\n\nTopic focus: {EDUCATION_TOPIC}\nAudience: {TARGET_AUDIENCE}\n\nRequirements:\n- Explain one useful protection, life insurance, final expense, legacy, or family planning concept\n- Keep it clear enough for a first-time insurance buyer\n- Avoid fear-based language\n- Tie the lesson back to taking one small action today\n- End with a soft CTA using {PRIMARY_CTA} or {SECONDARY_CTA}\n\nReturn the tip in three formats:\n1. Short social caption\n2. SMS-friendly version\n3. One-sentence talking point for in-person conversations"
+      },
+      {
+        "id": "5",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 300 },
+        "label": "💬 New Lead Follow-Up",
+        "prompt": "Write a follow-up message for a new lead who came in through {LEAD_SOURCE}.\n\nLead context:\n- Name: {LEAD_NAME}\n- Interest: {LEAD_INTEREST}\n- Source campaign: {SOURCE_CAMPAIGN}\n- Stage in pipeline: {PIPELINE_STAGE}\n\nRequirements:\n- Be personal, respectful, and brief\n- Reference their original action or interest\n- Make the next step easy\n- Offer two response options if helpful\n- Use a calm protection-focused tone\n\nReturn:\n1. SMS follow-up\n2. Email follow-up\n3. Messenger/DM follow-up\n4. Recommended next pipeline status for Supabase"
+      },
+      {
+        "id": "6",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 440 },
+        "label": "🏫 PAHS Campaign Action",
+        "prompt": "Create today’s PAHS or community campaign action.\n\nCampaign context:\n- Community partner: {COMMUNITY_PARTNER}\n- Campaign asset: {CAMPAIGN_ASSET}\n- QR or UTM destination: {QR_UTM_DESTINATION}\n- Campaign goal: {CAMPAIGN_GOAL}\n\nRequirements:\n- Make the action measurable\n- Connect the physical or community touchpoint to digital lead capture\n- Include what to post, send, place, ask, or track today\n- Tie the action to the five-stage pipeline: awareness, interest, capture, follow-up, conversion\n\nReturn:\n1. Today’s action\n2. Why it matters\n3. Tracking instruction\n4. Follow-up trigger\n5. Metric to review tomorrow"
+      },
+      {
+        "id": "7",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 580 },
+        "label": "🤝 Referral Prompt",
+        "prompt": "Create a referral prompt for Latimore Life & Legacy.\n\nReferral audience: {REFERRAL_AUDIENCE}\nReferral angle: {REFERRAL_ANGLE}\n\nRequirements:\n- Sound natural and relationship-based\n- Make the ask specific but not pushy\n- Mention families, protection, legacy, or community care\n- Include a simple CTA path using {PRIMARY_CTA} or {SECONDARY_CTA}\n\nReturn:\n1. Text message version\n2. Social post version\n3. In-person script\n4. One-line referral card copy"
+      },
+      {
+        "id": "8",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 720 },
+        "label": "🎯 Top Priorities",
+        "prompt": "Based on today’s brief, identify the top 3 business priorities for Latimore Life & Legacy.\n\nUse this priority filter:\n1. What creates trust today?\n2. What captures or advances leads today?\n3. What strengthens the community authority system today?\n\nReturn exactly 3 priorities.\n\nFor each priority include:\n- Priority title\n- Why it matters\n- One concrete action\n- Expected result\n- Owner or role responsible"
+      },
+      {
+        "id": "9",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 860 },
+        "label": "🧾 Final Command Brief",
+        "prompt": "Compile the full Latimore Life & Legacy Daily Marketing Command Brief into one clean final report.\n\nUse this structure:\n\nLatimore Life & Legacy Daily Marketing Command Brief\nDate: {BRIEF_DATE}\n\n1. Facebook / Google Business Profile Post\n2. Client Education Tip\n3. New-Lead Follow-Up Message\n4. PAHS / Community Campaign Action\n5. Referral Prompt\n6. Top 3 Business Priorities\n7. Tracking Notes for Supabase\n8. Tomorrow’s Review Questions\n\nKeep the final brief concise, polished, and ready to use before the business day starts."
+      },
+      {
+        "id": "10",
+        "type": "END",
+        "position": { "x": 120, "y": 1000 }
+      }
+    ],
+    "edges": [
+      { "sourceNode": "1", "targetNode": "2" },
+      { "sourceNode": "2", "targetNode": "3" },
+      { "sourceNode": "3", "targetNode": "4" },
+      { "sourceNode": "4", "targetNode": "5" },
+      { "sourceNode": "5", "targetNode": "6" },
+      { "sourceNode": "6", "targetNode": "7" },
+      { "sourceNode": "7", "targetNode": "8" },
+      { "sourceNode": "8", "targetNode": "9" },
+      { "sourceNode": "9", "targetNode": "10" }
+    ],
+    "state": {
+      "keys": [
+        { "name": "BRIEF_DATE", "type": "INPUT", "values": ["Today"] },
+        {
+          "name": "TARGET_AUDIENCE",
+          "type": "INPUT",
+          "values": ["Families, parents, homeowners, and community members who need life insurance or legacy protection guidance"]
+        },
+        {
+          "name": "OFFER_FOCUS",
+          "type": "INPUT",
+          "values": ["Life insurance, final expense planning, mortgage protection, family protection, and legacy planning"]
+        },
+        {
+          "name": "COMMUNITY_FOCUS",
+          "type": "INPUT",
+          "values": ["Local families connected to the PAHS and surrounding community"]
+        },
+        {
+          "name": "PAHS_PROOF_POINT",
+          "type": "INPUT",
+          "values": ["Latimore Life & Legacy supports PAHS through sponsorship, community outreach, postcards, direct mail, and measurable QR-based campaign tracking"]
+        },
+        { "name": "PRIMARY_CTA", "type": "INPUT", "values": ["Scan the QR code"] },
+        { "name": "SECONDARY_CTA", "type": "INPUT", "values": ["DM “PROTECT”"] },
+        {
+          "name": "EDUCATION_TOPIC",
+          "type": "INPUT",
+          "values": ["Why every family should review their protection plan before they need it"]
+        },
+        {
+          "name": "LEAD_SOURCE",
+          "type": "INPUT",
+          "values": ["QR code, Facebook, Google Business Profile, referral, community event, postcard, or direct mail"]
+        },
+        { "name": "LEAD_NAME", "type": "INPUT", "values": ["New lead"] },
+        { "name": "LEAD_INTEREST", "type": "INPUT", "values": ["Family protection quote"] },
+        { "name": "SOURCE_CAMPAIGN", "type": "INPUT", "values": ["PAHS community campaign"] },
+        { "name": "PIPELINE_STAGE", "type": "INPUT", "values": ["New lead"] },
+        { "name": "COMMUNITY_PARTNER", "type": "INPUT", "values": ["PAHS"] },
+        { "name": "CAMPAIGN_ASSET", "type": "INPUT", "values": ["Ethos postcard or direct-mail piece with QR code"] },
+        { "name": "QR_UTM_DESTINATION", "type": "INPUT", "values": ["Tracked quote or lead-capture page"] },
+        {
+          "name": "CAMPAIGN_GOAL",
+          "type": "INPUT",
+          "values": ["Move community members from awareness to captured leads and booked conversations"]
+        },
+        {
+          "name": "REFERRAL_AUDIENCE",
+          "type": "INPUT",
+          "values": ["Existing clients, friends, parents, school families, and trusted community contacts"]
+        },
+        {
+          "name": "REFERRAL_ANGLE",
+          "type": "INPUT",
+          "values": ["Help another family protect what matters before life forces the conversation"]
+        }
+      ]
+    }
+  }
+}

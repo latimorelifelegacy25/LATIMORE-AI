@@ -1,0 +1,148 @@
+{
+  "source": "gptcha.in",
+  "version": "3.3.0",
+  "metadata": {
+    "name": "Latimore OS — Email Drip Campaign Engine",
+    "description": "Source-tagged, six-stage 30-day nurture workflow for insurance prospects: welcome, education, social proof, soft ask, urgency nudge, re-engagement. Produces a paste-ready addendum for a Business + Marketing Plan, plus automation rules and KPI tracking.",
+    "tags": [
+      "marketing",
+      "email-drip",
+      "insurance",
+      "crm",
+      "automation",
+      "lead-nurture"
+    ]
+  },
+  "workflow": {
+    "nodes": [
+      {
+        "id": "1",
+        "type": "START",
+        "position": { "x": 120, "y": -260 }
+      },
+      {
+        "id": "2",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": -130 },
+        "label": "🧠 Business + Plan Context Lock",
+        "prompt": "You are building an “Email Drip Campaign System” addendum to an existing Business + Marketing Plan for {business_name} / {brand_name}.\n\nFirst, lock the operating context:\n- Owner: {owner_name}\n- Offers: {primary_offers}\n- Service area: {service_area}\n- Voice: {voice_guidelines}\n- Booking link: {booking_link}\n- CRM: {crm_name}\n- Compliance notes: {compliance_notes}\n\nIf {trigger_sources_table} is provided, use it as the source-to-sequence mapping. If it is missing, propose a reasonable mapping based on the offers and channels.\n\nOutput:\n1) A short “Why this drip exists” paragraph (trust-building touches, not one follow-up)\n2) The 6-stage framework labels: welcome, education, social proof, soft ask, urgency nudge, re-engagement\n3) The exact 30-day cadence (Day 0, 2, 5, 10, 17, 30) with a one-line goal for each touch\n\nKeep tone plain-English and client-trust focused. No hype."
+      },
+      {
+        "id": "3",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 5 },
+        "label": "🏷 Source Tagging + Sequence Assignment Map",
+        "prompt": "Create the “Trigger Sources” section.\n\nUse this structure:\n- Lead Source\n- Assigned Sequence Name\n- Primary intent of that sequence\n- CRM tag(s) to apply (source + sequence + stage)\n- Entry criteria (what makes a lead qualify)\n- Exit criteria (what stops the drip: booked, replied, opted out, closed)\n\nIf the user provides a mapping table, preserve it exactly and add the missing columns above. If not provided, generate a mapping that covers at least:\n- QR code / community events\n- Website consultation form\n- Quote request\n- Retirement / annuity inquiry\n- Facebook DM keyword\n- Google Business Profile\n\nMake the tags consistent and copy-paste friendly for {crm_name}."
+      },
+      {
+        "id": "4",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 145 },
+        "label": "🗓 30-Day Drip Blueprint",
+        "prompt": "Build the “30-Day Lead Nurture Sequence” section as a table.\n\nColumns:\n- Day\n- Stage (welcome, education, social proof, soft ask, urgency nudge, re-engagement)\n- Channel (email, text, both)\n- Theme / subject angle\n- Primary goal\n- CTA\n- Personalization tokens to use (use {crm_first_name_token} and {booking_link})\n\nRules:\n- Day 0 must confirm receipt and set expectations.\n- Education must teach a simple framework to help estimate coverage needs.\n- Social proof must emphasize local/community credibility.\n- Soft ask must invite a low-pressure review.\n- Urgency must explain risk of waiting without fearmongering.\n- Re-engagement must add fresh value and reopen the loop.\n\nEnd with a short note on how to adjust timing if the lead replies or books early."
+      },
+      {
+        "id": "5",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 285 },
+        "label": "✉️ Six Email Drafts (Plug-and-Play)",
+        "prompt": "Write the full copy for the 6 emails in the sequence.\n\nConstraints:\n- Each email includes: Subject line + body + clear CTA with {booking_link}\n- Use {crm_first_name_token} in greeting\n- Keep paragraphs short and scannable\n- Voice: plain English, no pressure, clarity-first\n- Include a consistent signature block:\n  {sender_name}\n  {sender_title}\n  {business_name}\n  {phone_number}\n- Include minimal compliance footer language if {compliance_notes} requires it\n- Ensure each email matches its stage goal and day\n\nOutput as:\nDay 0 Email\nDay 2 Email\nDay 5 Email\nDay 10 Email\nDay 17 Email\nDay 30 Email"
+      },
+      {
+        "id": "6",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 425 },
+        "label": "📲 Text Message Companions",
+        "prompt": "Create a matching set of SMS/text messages for Day 0, 2, 5, 10, 17, 30.\n\nConstraints:\n- 240 characters max each\n- Friendly, professional, local-trust tone\n- One clear CTA per message (either reply with a word, or book via {booking_link})\n- Use {crm_first_name_token} where appropriate\n- Include opt-out language if required by {compliance_notes}\n\nOutput as:\nDay 0 Text\nDay 2 Text\nDay 5 Text\nDay 10 Text\nDay 17 Text\nDay 30 Text"
+      },
+      {
+        "id": "7",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 565 },
+        "label": "🤖 Automation Rules + Manual Task Logic",
+        "prompt": "Write the “Automation Rule” section as an implementation spec for {crm_name}.\n\nInclude:\n1) Trigger: new lead created and source captured\n2) Actions immediately on entry:\n   - apply tags\n   - send Day 0 message\n   - create a timeline for remaining touches\n3) Conditional branches:\n   - If lead books: stop sequence, move pipeline stage to Booked, create reminder task\n   - If lead replies: pause automation for manual follow-up, move stage to Engaged\n   - If lead opts out: stop all messaging, tag Opted Out\n4) No-response rule:\n   - If no reply and no booking after Day 10, create a manual task for {owner_name} with a short call script outline\n5) Re-engagement:\n   - At Day 30, tag as Cold if no engagement; optionally move to long-term nurture list\n\nOutput:\n- A numbered rules list\n- A compact pseudo-flow diagram in text (Lead comes in -> tags -> drip -> task -> pipeline move)"
+      },
+      {
+        "id": "8",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 705 },
+        "label": "📊 KPI Targets + Reporting Loop",
+        "prompt": "Create the “KPIs to Track” section.\n\nInclude a table with:\n- KPI\n- Target\n- How to measure in {crm_name}\n- Weekly action if below target (one specific adjustment)\n\nMinimum KPIs:\n- Email open rate\n- Click-through rate\n- Reply rate\n- Booking conversion\n- Sequence completion\n- Cold lead revival\n\nThen add:\n- A simple weekly review checklist (10 minutes)\n- Two A/B tests to run (subject lines and CTA phrasing)\n\nUse {kpi_targets} if provided; otherwise propose realistic initial targets."
+      },
+      {
+        "id": "9",
+        "type": "DEFAULT",
+        "position": { "x": 120, "y": 845 },
+        "label": "🧩 Paste-Ready Marketing Plan Addendum",
+        "prompt": "Compile everything into a single “Email Drip Campaign System” addendum that can be pasted into a Business + Marketing Plan.\n\nStructure:\n- Overview (why repeated touches matter)\n- Six-stage framework (welcome, education, social proof, soft ask, urgency nudge, re-engagement)\n- Trigger Sources and Sequence Assignment\n- 30-Day Lead Nurture Table\n- Email Drafts\n- Text Companions\n- Automation Rules\n- KPIs to Track\n- Bottom Line (one paragraph summarizing: lead -> tag -> drip -> booking -> task -> pipeline)\n\nMake it clean, skimmable, and implementation-ready."
+      },
+      {
+        "id": "10",
+        "type": "END",
+        "position": { "x": 120, "y": 985 }
+      }
+    ],
+    "edges": [
+      { "sourceNode": "1", "targetNode": "2" },
+      { "sourceNode": "2", "targetNode": "3" },
+      { "sourceNode": "3", "targetNode": "4" },
+      { "sourceNode": "4", "targetNode": "5" },
+      { "sourceNode": "5", "targetNode": "6" },
+      { "sourceNode": "6", "targetNode": "7" },
+      { "sourceNode": "7", "targetNode": "8" },
+      { "sourceNode": "8", "targetNode": "9" },
+      { "sourceNode": "9", "targetNode": "10" }
+    ],
+    "state": {
+      "keys": [
+        { "name": "business_name", "type": "INPUT", "values": ["Latimore Life & Legacy LLC"] },
+        { "name": "brand_name", "type": "INPUT", "values": ["Latimore OS"] },
+        { "name": "owner_name", "type": "INPUT", "values": ["Jackson Latimore"] },
+        { "name": "sender_name", "type": "INPUT", "values": ["Jackson Latimore"] },
+        { "name": "sender_title", "type": "INPUT", "values": ["Founder | Protection & Retirement Advisor"] },
+        { "name": "phone_number", "type": "INPUT", "values": ["(###) ###-####"] },
+        { "name": "reply_to_email", "type": "INPUT", "values": ["reply@latimorelifelegacy.com"] },
+        { "name": "booking_link", "type": "INPUT", "values": ["https://your-booking-link.com"] },
+        { "name": "service_area", "type": "INPUT", "values": ["Coal Region and surrounding communities"] },
+        {
+          "name": "primary_offers",
+          "type": "INPUT",
+          "values": ["Life insurance, living benefits, mortgage protection, retirement income planning, annuity education, legacy planning"]
+        },
+        {
+          "name": "voice_guidelines",
+          "type": "INPUT",
+          "values": ["Plain English, no pressure, clarity-first, trust-building, local community tone"]
+        },
+        { "name": "crm_name", "type": "INPUT", "values": ["Your CRM"] },
+        { "name": "crm_first_name_token", "type": "INPUT", "values": ["{{first_name}}"] },
+        {
+          "name": "trigger_sources_table",
+          "type": "INPUT",
+          "values": [
+            "PAHS QR code -> Family Protection / Community Trust\nWebsite consultation form -> General Protection Review\nEthos quote request -> Fast Term / Living Benefits\nRetirement inquiry -> Annuity / Safe Money\nFacebook DM “PROTECT” -> Life Insurance Education\nGoogle Business Profile -> Local Trust / Policy Review"
+          ]
+        },
+        {
+          "name": "compliance_notes",
+          "type": "INPUT",
+          "values": [
+            "Include unsubscribe/opt-out instructions where required. Follow applicable TCPA/CAN-SPAM rules. Use business address/footer if required by your email provider."
+          ]
+        },
+        {
+          "name": "kpi_targets",
+          "type": "INPUT",
+          "values": [
+            "Email open rate: 35%+\nClick-through rate: 3%–8%\nReply rate: 5%+\nBooking conversion: 10%–20%\nSequence completion: 80%+\nCold lead revival: 5%–10%"
+          ]
+        },
+        {
+          "name": "pipeline_stages",
+          "type": "INPUT",
+          "values": ["New Lead, Nurturing, Engaged, Booked, No Response, Closed Won, Closed Lost, Opted Out, Cold"]
+        }
+      ]
+    }
+  }
+}
