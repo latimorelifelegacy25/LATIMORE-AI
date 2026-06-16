@@ -57,7 +57,7 @@ Warm community-centered photo — a family at a school event or neighborhood gat
 "Your protection plan should be in place before life needs it — not after. One conversation changes everything. Scan the QR or DM PROTECT. 💙"
 
 **SMS-Friendly Version (under 160 chars)**
-"Most families don't review life insurance until it's urgent. Let's change that. Reply PROTECT or book a chat: [booking link]"
+"Most families don't review life insurance until it's urgent. Let's change that. Reply PROTECT or book a chat: https://latimorelifelegacy.fillout.com/latimorelifelegacy"
 
 **In-Person Talking Point**
 "Most people know they need a plan — they just haven't set one up yet. The best time is before life gives you a reason to rush."
@@ -67,7 +67,7 @@ Warm community-centered photo — a family at a school event or neighborhood gat
 ## 3. New-Lead Follow-Up Messages
 
 ### SMS Follow-Up
-"Hi [First Name]! Thanks for reaching out about protecting your family. I'm Jackson with Latimore Life & Legacy. I'd love a quick 15-min chat — when works for you? Reply here or book at [booking link]."
+"Hi [First Name]! Thanks for reaching out about protecting your family. I'm Jackson with Latimore Life & Legacy. I'd love a quick 15-min chat — when works for you? Reply here or book at https://latimorelifelegacy.fillout.com/latimorelifelegacy."
 
 ### Email Follow-Up
 
@@ -83,14 +83,15 @@ I'd love to schedule a quick 15–20 minute call to learn about your situation a
 
 Two easy ways to connect:
 → Reply to this email and we'll find a time
-→ Book directly: [booking link]
+→ Book directly: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 Looking forward to it,
 
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *Life insurance is subject to underwriting approval. Not available in all states.*
 

@@ -43,12 +43,12 @@ The goal is not to pressure anyone. It's to stay present, add real value, and ma
 
 | Day | Stage | Channel | Theme / Subject Angle | Primary Goal | CTA | Personalization |
 |---|---|---|---|---|---|---|
-| 0 | Welcome | Email + Text | Confirm receipt; set expectations | Build immediate trust; establish next step | Book a call: [booking link] | {{first_name}}, source tag |
+| 0 | Welcome | Email + Text | Confirm receipt; set expectations | Build immediate trust; establish next step | Book a call: https://latimorelifelegacy.fillout.com/latimorelifelegacy | {{first_name}}, source tag |
 | 2 | Education | Email + Text | How to know how much coverage your family actually needs | Teach one framework; reduce overwhelm | Reply to ask a question | {{first_name}} |
-| 5 | Social Proof | Email | Local families, community roots, PAHS connection | Build trust through community proof | See what others are doing: [booking link] | {{first_name}} |
-| 10 | Soft Ask | Email + Text | Ready for a quick, no-pressure review? | Convert warm lead to booked conversation | Book a 15-min call: [booking link] | {{first_name}} |
-| 17 | Urgency Nudge | Email | The quiet cost of waiting | Address delay without fear tactics | Take one step today: [booking link] | {{first_name}} |
-| 30 | Re-engagement | Email + Text | One more thing I want to share with you | Reopen the loop; offer fresh value | Reply or book: [booking link] | {{first_name}} |
+| 5 | Social Proof | Email | Local families, community roots, PAHS connection | Build trust through community proof | See what others are doing: https://latimorelifelegacy.fillout.com/latimorelifelegacy | {{first_name}} |
+| 10 | Soft Ask | Email + Text | Ready for a quick, no-pressure review? | Convert warm lead to booked conversation | Book a 15-min call: https://latimorelifelegacy.fillout.com/latimorelifelegacy | {{first_name}} |
+| 17 | Urgency Nudge | Email | The quiet cost of waiting | Address delay without fear tactics | Take one step today: https://latimorelifelegacy.fillout.com/latimorelifelegacy | {{first_name}} |
+| 30 | Re-engagement | Email + Text | One more thing I want to share with you | Reopen the loop; offer fresh value | Reply or book: https://latimorelifelegacy.fillout.com/latimorelifelegacy | {{first_name}} |
 
 **Timing adjustment:** If a lead books before Day 10, stop the sequence immediately and move to Booked. If a lead replies at any point, pause automation and flag for manual follow-up within 24 hours.
 
@@ -73,7 +73,7 @@ Here's what to expect from me:
 - I'll make it easy to ask questions or book a quick call whenever you're ready
 - There's zero pressure at any stage
 
-When you're ready to talk, the easiest way is here: [booking link]
+When you're ready to talk, the easiest way is here: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 Or just reply to this email — I read every message myself.
 
@@ -82,7 +82,8 @@ Talk soon,
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *To unsubscribe, reply "STOP" or click here: [unsubscribe link]. Latimore Life & Legacy LLC | Central Pennsylvania. Life insurance is subject to underwriting approval. Not available in all states.*
 
@@ -106,14 +107,15 @@ Here's a straightforward starting point:
 
 Add those four numbers up and you have a ballpark. Most families I work with are surprised by how affordable it is to cover that number — especially when you start sooner rather than later.
 
-If you'd like to run the numbers together, I'm happy to do that in a quick 15-minute call: [booking link]
+If you'd like to run the numbers together, I'm happy to do that in a quick 15-minute call: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 Or just reply with your situation and I'll give you an honest first take.
 
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *Unsubscribe: [unsubscribe link] | Life insurance is subject to underwriting approval. Not available in all states.*
 
@@ -137,12 +139,13 @@ Here in Schuylkill, Luzerne, and Northumberland counties, I've helped families s
 
 Every plan starts with a single conversation.
 
-If you're ready for yours: [booking link]
+If you're ready for yours: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *Unsubscribe: [unsubscribe link] | Life insurance is subject to underwriting approval. Not available in all states.*
 
@@ -163,14 +166,15 @@ Here's what you'll walk away with:
 - An honest sense of what adequate protection would cost
 - Answers to any questions you've had but haven't asked yet
 
-Book a time that works for you: [booking link]
+Book a time that works for you: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 If you'd prefer to start with a quick email question, just reply here.
 
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *Unsubscribe: [unsubscribe link] | Life insurance is subject to underwriting approval. Not available in all states.*
 
@@ -192,14 +196,15 @@ I'm not saying this to worry you. I'm saying it because I see families every mon
 
 Your family deserves a plan — and the best time to build one is before you need it.
 
-If you're ready to take one step: [booking link]
+If you're ready to take one step: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 No rush. But don't let it be next year's conversation when it could be this week's.
 
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *Unsubscribe: [unsubscribe link] | Life insurance is subject to underwriting approval. Not available in all states.*
 
@@ -219,7 +224,7 @@ That's exactly what we help build.
 
 If the timing hasn't been right, that's completely okay. When it is, I'll be here.
 
-In the meantime, if you have a question — even a quick one — just reply to this email or book a few minutes here: [booking link]
+In the meantime, if you have a question — even a quick one — just reply to this email or book a few minutes here: https://latimorelifelegacy.fillout.com/latimorelifelegacy
 
 And if you know someone else who could use this kind of help, I'd be grateful if you passed this along.
 
@@ -228,7 +233,8 @@ Take care of yourself and your family,
 Jackson Latimore
 Founder | Protection & Retirement Advisor
 Latimore Life & Legacy LLC
-[phone number]
+717-615-2613 | Jackson1989@latimorelegacy.com
+card.latimorelifelegacy.com
 
 *Unsubscribe: [unsubscribe link] | Life insurance is subject to underwriting approval. Not available in all states.*
 
@@ -237,22 +243,22 @@ Latimore Life & Legacy LLC
 ## Text Message Companions
 
 **Day 0 Text**
-"Hi {{first_name}}, it's Jackson @ Latimore Life & Legacy. Thanks for connecting! I'll follow up with some helpful info. Questions? Just reply. Book a call anytime: [booking link] Reply STOP to opt out."
+"Hi {{first_name}}, it's Jackson @ Latimore Life & Legacy. Thanks for connecting! I'll follow up with some helpful info. Questions? Just reply. Book a call anytime: https://latimorelifelegacy.fillout.com/latimorelifelegacy Reply STOP to opt out."
 
 **Day 2 Text**
-"{{first_name}} — quick tip: use the DIME method (Debt + Income + Mortgage + Education) to estimate your family's coverage need. Want to run the numbers together? [booking link] Reply STOP to opt out."
+"{{first_name}} — quick tip: use the DIME method (Debt + Income + Mortgage + Education) to estimate your family's coverage need. Want to run the numbers together? https://latimorelifelegacy.fillout.com/latimorelifelegacy Reply STOP to opt out."
 
 **Day 5 Text**
-"{{first_name}}, families across Central PA are protecting their homes and legacies with plans that start simpler than you'd think. I'd love to show you how. [booking link] Reply STOP to opt out."
+"{{first_name}}, families across Central PA are protecting their homes and legacies with plans that start simpler than you'd think. I'd love to show you how. https://latimorelifelegacy.fillout.com/latimorelifelegacy Reply STOP to opt out."
 
 **Day 10 Text**
-"{{first_name}} — I'd love a quick 15-min call to walk through your options. No pressure, just clarity. Book here: [booking link] Or reply and we'll find a time. Reply STOP to opt out."
+"{{first_name}} — I'd love a quick 15-min call to walk through your options. No pressure, just clarity. Book here: https://latimorelifelegacy.fillout.com/latimorelifelegacy Or reply and we'll find a time. Reply STOP to opt out."
 
 **Day 17 Text**
-"{{first_name}}, just a gentle reminder: the cost of the same coverage goes up each year. Locking in a plan now saves money long-term. When you're ready: [booking link] Reply STOP to opt out."
+"{{first_name}}, just a gentle reminder: the cost of the same coverage goes up each year. Locking in a plan now saves money long-term. When you're ready: https://latimorelifelegacy.fillout.com/latimorelifelegacy Reply STOP to opt out."
 
 **Day 30 Text**
-"{{first_name}} — last check-in from Jackson. Still here if the timing is right. Book a quick chat: [booking link] Or forward this to someone who needs it. Reply STOP to opt out."
+"{{first_name}} — last check-in from Jackson. Still here if the timing is right. Book a quick chat: https://latimorelifelegacy.fillout.com/latimorelifelegacy Or forward this to someone who needs it. Reply STOP to opt out."
 
 *All SMS messages comply with TCPA opt-out requirements. Include business address in email footer per CAN-SPAM.*
 
