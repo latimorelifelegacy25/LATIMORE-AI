@@ -6930,6 +6930,14 @@ Founder & CEO, Latimore Life & Legacy
                             >
                               ✉️ Email Drip Campaign
                             </button>
+                            <button
+                              onClick={() => loadBundledWorkflowPreset("/workflow-presets/latimore-brand-os-content-builder.json")}
+                              disabled={isLoadingWorkflowPreset}
+                              className="flex-1 bg-slate-950 hover:bg-slate-850 disabled:opacity-50 text-slate-300 px-2 py-1.5 rounded border border-slate-800 flex items-center justify-center gap-1.5 cursor-pointer hover:border-amber-500/60 hover:text-white text-[10px] font-mono"
+                              title="Load the Brand OS & Content Builder gptcha.in preset"
+                            >
+                              🧱 Brand OS & Content Builder
+                            </button>
                           </div>
 
                           <input
