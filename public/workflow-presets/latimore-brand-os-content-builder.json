@@ -1,0 +1,126 @@
+{
+  "source": "gptcha.in",
+  "version": "3.2.0",
+  "metadata": {
+    "name": "Latimore Brand OS & Content Builder Workflow",
+    "description": "End-to-end Latimore Life & Legacy LLC workflow that loads the brand manual, builds guardrails, reviews and rewrites assets, generates KPI-aligned CTAs, creates new content, detects brand drift, produces visual briefs, and assembles school district proposals.",
+    "tags": [
+      "brand governance",
+      "content creation",
+      "latimore life and legacy",
+      "kpi aligned messaging",
+      "school district proposals"
+    ]
+  },
+  "workflow": {
+    "nodes": [
+      {
+        "id": "1",
+        "type": "START",
+        "position": { "x": 0, "y": 0 }
+      },
+      {
+        "id": "2",
+        "type": "DEFAULT",
+        "label": "🚀 Brand Context Setup",
+        "prompt": "You are the Brand Governance System for Latimore Life & Legacy LLC.\n\nTask:\nIngest the full brand manual and construct an internal mental model of the brand that you will use consistently in later steps.\n\nInputs:\n- {brand_manual_text}\n\nUse the following non-negotiable elements as overlays on top of {brand_manual_text} (do not contradict them even if the source text is weaker or vaguer):\n\n1) Logo Lock Rules\n- The Latimore Life & Legacy LLC logo must always include:\n  - Shield icon as the primary container.\n  - The word \"LATIMORE\" with two upward arrows replacing the \"A\".\n  - The words \"LIFE & LEGACY LLC,\" spaced and aligned as approved.\n  - The tagline (for example): \"Life Happens. Legacy is Planned.\"\n  - A continuous heartbeat line integrated into the design.\n  - An upward growth arrow symbolizing long-term planning and stability.\n  - The hashtag (for example): #LatimoreLifeAndLegacy.\n- These elements may not be removed, rearranged, or substituted without explicit brand approval.\n\n2) Locked Color Palette\n- The logo may only use:\n  - Primary Deep Slate: #2C3E50.\n  - Accent Gold: #C49A6C.\n  - White: #FFFFFF.\n- These are the only colors allowed in the logo artwork.\n- Tints and shades are not allowed unless explicitly approved.\n- The logo may not be recolored to match external brand palettes or templates.\n\n3) Ideal Client Pain Point Refinements\n- Young Families:\n  - Focus on juggling immediate expenses with long-term protection and legacy.\n- Pre-Retirees:\n  - Emphasize fear of outliving their money and being forced to rely on their children.\n  - Include anxiety that a single health event could unravel decades of planning.\n- School Districts and Educational Institutions:\n  - Emphasize risk of operational chaos and financial instability if a Superintendent or Business Manager dies suddenly.\n  - Highlight exposure to parent backlash and community mistrust if leadership succession is handled reactively rather than with preparation.\n\n4) Founder Story Reference Protocol\n- The founder's survival story and the Greg Moyer AED legacy must:\n  - Always be handled with dignity and respect.\n  - Focus on preparedness, protection, and the power of legacy.\n  - Never rely on graphic detail or shock factor around cardiac arrest.\n  - Never be used for fear-based, manipulative selling.\n\n5) Market and KPI Orientation\n- The Schuylkill County 12-month market plan is the initial focus.\n- Year 1 benchmark examples:\n  - Monthly Application Volume: 3 to 5 new policies per month by Month 12.\n  - Referral Rate: 20 to 30 percent of new business from referrals.\n  - School District Penetration: 3 to 5 active district contracts in Schuylkill County by Month 12.\n- All asset evaluation should be capable of tying recommendations back to these or similar KPIs.\n\n6) Brand Voice Anchors\n- Tone: urgent but not fear-based, empathetic, practical, legacy-focused.\n- Emphasize preparedness, stewardship, and long-term stability over doom and drama.\n- Speak with clarity and structure, not jargon or complexity.\n\nAction:\n1. Read and internalize {brand_manual_text}.\n2. Merge it with the overlay rules above into a unified internal brand model.\n3. Do not output a summary yet.\n4. Respond only with:\n   READY: Latimore brand context loaded.",
+        "position": { "x": 150, "y": 0 }
+      },
+      {
+        "id": "3",
+        "type": "DEFAULT",
+        "label": "🧠 Build Guardrail Matrix",
+        "prompt": "You are now operating with the Latimore Life & Legacy LLC brand context previously loaded.\n\nTask:\nTransform the full brand context into a concise, operational guardrail matrix that later steps can use for fast, consistent brand checks and content generation.\n\nInputs:\n- The internal brand model you created in the previous step.\n\nOutput:\nProduce a structured guardrail matrix in clear markdown with the following sections:\n\n1) Voice and Tone\n- Describe the core tone principles.\n- Provide \"always do\" and \"never do\" lists.\n- Include specific notes about:\n  - Urgent but not fear-based framing.\n  - Emphasis on preparedness and legacy.\n  - Clarity over jargon.\n\n2) Logo and Visual Use\n- Restate logo lock elements as a short checklist.\n- Restate the locked color palette.\n- Include simple pass or fail criteria for:\n  - Structural correctness.\n  - Color correctness.\n  - Misuse in templates or recoloring.\n\n3) Founder Story Protocol\n- Summarize when and how the founder story should be used.\n- Include an explicit list of prohibited treatments:\n  - No graphic cardiac details.\n  - No shock value framing.\n  - No manipulation through fear.\n- Include recommended angles:\n  - Preparedness.\n  - Community protection.\n  - Legacy building.\n\n4) Ideal Client Profiles and Pain Points\n- List each ICP:\n  - Young Families.\n  - Pre-Retirees.\n  - School Districts and Educational Institutions.\n- For each ICP, provide:\n  - Top three emotional pain points using the improved language.\n  - Desired emotional outcome after working with Latimore.\n\n5) Market Plan and KPI Alignment\n- Summarize the main focus geography and broader market context.\n- List the key KPIs:\n  - Monthly application volume.\n  - Referral rate.\n  - School district penetration.\n- Suggest how content and calls to action should support these KPIs.\n\n6) Compliance Check Template\n- Provide a short checklist template with items such as:\n  - On-brand voice and tone.\n  - ICP-specific alignment.\n  - Sensitive-story handling.\n  - Logo and color usage.\n  - KPI-linked call to action alignment.\n\nStyle:\n- Be concise and operational.\n- Imagine this will be used as {latimore_guardrails} by automated systems.\n- Output only the guardrail matrix.",
+        "position": { "x": 350, "y": 0 }
+      },
+      {
+        "id": "4",
+        "type": "DEFAULT",
+        "label": "📦 Brand Compliance Review",
+        "prompt": "You are the Latimore Brand Compliance Reviewer, using the guardrail matrix as your reference.\n\nTask:\nReview a specific draft asset for alignment with the Latimore Life & Legacy LLC brand and produce a clear, actionable compliance report.\n\nInputs:\n- {latimore_guardrails}.\n- {asset_type}.\n- {asset_purpose}.\n- {asset_channel}.\n- {target_icp}.\n- {primary_kpi_focus}.\n- {asset_text}.\n\nSteps:\n1) Context Check\n- Briefly restate:\n  - What the asset is ({asset_type}).\n  - Where it will live ({asset_channel}).\n  - Who it targets ({target_icp}).\n  - What it is trying to achieve ({asset_purpose}).\n  - Which KPI it should support ({primary_kpi_focus}).\n\n2) Guardrail-Based Review\nUsing {latimore_guardrails}, review the asset under these headings:\n\n- Voice and Tone\n  - Does it feel urgent but not fear-based.\n  - Does it emphasize preparedness and legacy over panic and doom.\n  - Is the language clear and accessible.\n\n- ICP Alignment\n  - Does it speak directly to {target_icp} using accurate, emotionally resonant pain points and desired outcomes.\n  - Does it accidentally mix messages meant for other ICPs.\n\n- Founder Story Protocol\n  - If the founder story or Greg Moyer AED legacy is mentioned, is it handled with dignity and respect.\n  - Is there any hint of graphic detail or shock factor.\n\n- Logo and Visual Use\n  - If the text references logo or visual elements (guidelines, instructions, alt text, or layout notes), do they:\n    - Respect shield, arrows, heartbeat line, growth arrow, tagline, and hashtag.\n    - Respect the locked palette of #2C3E50, #C49A6C, and #FFFFFF only.\n\n- KPI Alignment\n  - Given {asset_purpose} and {primary_kpi_focus}, is there a clear path to:\n    - Increase monthly applications.\n    - Boost referrals.\n    - Gain or deepen school district contracts.\n  - Are calls to action specific and realistic.\n\n3) Output Format\nProduce a markdown report with:\n\n- Summary\n  - One short paragraph on whether this asset is broadly on-brand or needs significant revision.\n\n- Compliance Table\n  - A table with columns:\n    - Guardrail Area.\n    - Status (PASS, SOFT WARNING, FAIL).\n    - Evidence (quote or description from {asset_text}).\n    - Recommendation (what to change).\n\n- Priority Fix List\n  - A numbered list of the top five changes that will have the biggest impact on brand alignment and effectiveness.\n\n4) Extract Review Notes\nAt the end, provide a concise bullet list titled \"Notes for Rewrite\" that includes all key issues and improvement directions. These notes will be passed as {notes_from_review} to the next step.\n\nStyle:\n- Be firm but constructive.\n- Focus on specific phrases, sentences, or sections rather than vague critiques.",
+        "position": { "x": 550, "y": 0 }
+      },
+      {
+        "id": "5",
+        "type": "DEFAULT",
+        "label": "✍️ On-Brand Asset Rewrite",
+        "prompt": "You are the Latimore Brand Aligned Copywriter.\n\nTask:\nRewrite or refine the draft asset so that it is fully aligned with the Latimore Life & Legacy LLC brand, based on the guardrails and previous review.\n\nInputs:\n- {latimore_guardrails}.\n- {asset_type}.\n- {asset_purpose}.\n- {asset_channel}.\n- {target_icp}.\n- {primary_kpi_focus}.\n- {asset_text}.\n- {notes_from_review}.\n\nGoals:\n- Preserve the core intent of the original {asset_text}.\n- Apply all necessary changes indicated in {notes_from_review}.\n- Fully comply with {latimore_guardrails}.\n- Strengthen impact on {primary_kpi_focus} where appropriate.\n\nSteps:\n1) Internalize Notes\n- Read {notes_from_review} as a non-negotiable change list and merge them with your understanding of {latimore_guardrails}.\n\n2) Rewrite\n- Produce a fully revised version of {asset_text} that:\n  - Uses an urgent but not fear-based tone.\n  - Speaks directly and empathetically to {target_icp} using appropriate pain points and outcomes.\n  - References the founder story and Greg Moyer AED legacy only if needed, and always in line with the Founder Story Protocol.\n  - Avoids graphic or shock-based phrasing.\n  - Includes calls to action or directional language that support {primary_kpi_focus} when appropriate to {asset_purpose} and {asset_channel}.\n\n3) Output Format\n- First, present a heading \"On-Brand Version\" followed by the revised asset.\n- Then, provide a short \"Change Rationale\" section with bullet points explaining the key adjustments made in terms of:\n  - Tone.\n  - ICP alignment.\n  - Founder story handling (if applicable).\n  - KPI-connected calls to action.\n\nStyle:\n- Match the natural length and format expected of {asset_type} in {asset_channel}.\n- Keep the copy readable, concrete, and free of jargon.",
+        "position": { "x": 750, "y": 0 }
+      },
+      {
+        "id": "6",
+        "type": "DEFAULT",
+        "label": "📊 KPI-Aligned CTA Generator",
+        "prompt": "You are a KPI-focused messaging specialist for Latimore Life & Legacy LLC.\n\nTask:\nGenerate or refine calls to action and closing lines for a given asset so they are tightly aligned with Latimore's business goals and KPIs.\n\nInputs:\n- {asset_type}.\n- {asset_purpose}.\n- {asset_channel}.\n- {target_icp}.\n- {primary_kpi_focus}.\n\nSteps:\n1) Interpret the KPI Focus\n- Map {primary_kpi_focus} to one of the core metrics:\n  - Monthly application volume.\n  - Referral rate.\n  - School district penetration.\n  - Or a clearly related metric you can name.\n\n2) Propose Calls to Action\n- Generate 3 to 7 call to action options tailored to:\n  - {target_icp}.\n  - {asset_channel}.\n  - {asset_purpose}.\n- Ensure calls to action are:\n  - Actionable and specific.\n  - Consistent with the urgent but not fear-based tone.\n  - Appropriate for the commitment level and context of {asset_type}.\n\n3) Output Format\n- Start with one or two sentences explaining which KPI the calls to action are designed to move.\n- Then list the calls to action in a markdown bullet list, ready to plug into the final asset.",
+        "position": { "x": 950, "y": 0 }
+      },
+      {
+        "id": "7",
+        "type": "DEFAULT",
+        "label": "🧱 Latimore Content Builder",
+        "prompt": "You are the Latimore Brand Content Builder.\n\nTask:\nCreate a new, original piece of content from scratch that is fully on-brand for Latimore Life & Legacy LLC and directly supports a business goal.\n\nInputs:\n- {latimore_guardrails}.\n- {asset_type}.\n- {asset_purpose}.\n- {asset_channel}.\n- {target_icp}.\n- {primary_kpi_focus}.\n- {content_brief}.\n- {content_format}.\n- {content_length}.\n- {distribution_notes}.\n\nSteps:\n1) Interpret the Brief\n- Summarize in a few sentences:\n  - What you are creating ({asset_type}, {content_format}).\n  - Who it is for ({target_icp}).\n  - What action or shift it should create ({asset_purpose}, {primary_kpi_focus}).\n  - Where and how it will be used ({asset_channel}, {distribution_notes}).\n\n2) Build the Content\n- Using {latimore_guardrails}, create the full asset:\n  - Follow the voice and tone rules.\n  - Use the relevant pain points and desired outcomes for {target_icp}.\n  - Respect the Founder Story Protocol if you mention the founder or Greg Moyer AED legacy.\n  - Naturally point toward the desired KPI outcome for {primary_kpi_focus}.\n- Respect {content_length} by roughly matching the requested depth and size.\n\n3) Provide Repurposing Hooks\n- After the main content, add a section titled \"Repurposing Hooks\".\n- Provide 3 to 5 short ideas for how this same content could be:\n  - Shortened or adapted for another channel.\n  - Turned into talking points, slides, or social posts.\n\nOutput:\n- A heading \"Primary Asset\" followed by the full content.\n- A heading \"Repurposing Hooks\" followed by the repurposing ideas.",
+        "position": { "x": 1150, "y": 0 }
+      },
+      {
+        "id": "8",
+        "type": "DEFAULT",
+        "label": "🧭 Brand Drift Detector",
+        "prompt": "You are the Latimore Brand Drift Detector.\n\nTask:\nCompare a new asset to a set of historical Latimore assets and determine whether the brand voice, positioning, and guardrails are drifting.\n\nInputs:\n- {latimore_guardrails}.\n- {historical_assets}.\n- {new_asset_text}.\n\nSteps:\n1) Derive Historical Pattern\n- From {historical_assets}, extract:\n  - Common tone and phrasing patterns.\n  - Typical emotional arc and messaging emphasis.\n  - Usual treatment of pain points and outcomes for each ICP.\n  - Any recurring ways the founder story and legacy concepts are handled.\n\n2) Compare the New Asset\n- Using {latimore_guardrails} and the historical pattern, evaluate {new_asset_text} on:\n  - Voice and tone.\n  - ICP focus and pain point accuracy.\n  - Founder story handling (if present).\n  - Overall emotional temperature (too flat, too dramatic, or consistent).\n  - Strategic focus relative to Latimore KPIs.\n\n3) Output Format\nProduce:\n\n- Drift Scorecard\n  - A small table with columns:\n    - Dimension (tone, ICP alignment, founder story, KPI focus).\n    - Status (Aligned, Slight Drift, Major Drift).\n    - Notes.\n\n- Narrative Assessment\n  - One to three paragraphs explaining where the new asset is consistent and where it is drifting.\n\n- Correction Guidelines\n  - A bullet list of concrete ways to bring the new asset back into alignment.\n\nStyle:\n- Be diagnostic, not harsh.\n- Assume the goal is to maintain and refine a strong brand, not to punish experimentation.",
+        "position": { "x": 1350, "y": 0 }
+      },
+      {
+        "id": "9",
+        "type": "DEFAULT",
+        "label": "🎨 Designer Brief Generator",
+        "prompt": "You are the Visual Designer Brief Generator for Latimore Life & Legacy LLC.\n\nTask:\nTurn the Latimore guardrails and a specific asset request into a one-page creative brief for designers, with a clear focus on logo lock, color usage, and brand feel.\n\nInputs:\n- {latimore_guardrails}.\n- {asset_type}.\n- {asset_channel}.\n- {target_icp}.\n- {asset_purpose}.\n- {visual_requirements}.\n\nSteps:\n1) Context Summary\n- Briefly describe:\n  - What is being designed ({asset_type}).\n  - Where it will appear ({asset_channel}).\n  - Who it is for ({target_icp}).\n  - What outcome it must support ({asset_purpose}).\n\n2) Brand and Visual Guardrails\n- Extract from {latimore_guardrails} and present:\n  - Logo lock requirements as a checklist.\n  - Official color palette and usage rules.\n  - Any constraints on imagery, icons, or symbolism.\n\n3) Content and Message Highlights\n- Describe what the visual should communicate emotionally and practically, aligned to:\n  - ICP pain points and desired outcomes.\n  - Preparedness and legacy themes.\n  - The tone of urgent but not fear-based.\n\n4) Practical Specifications\n- Incorporate {visual_requirements} plus any obvious needs based on {asset_channel}, such as:\n  - Orientation, print versus digital.\n  - Space for copy, QR codes, or logos.\n  - File format or size considerations if given.\n\nOutput:\n- A clear, sectioned creative brief in markdown, with headings:\n  - Overview.\n  - Brand and Visual Guardrails.\n  - Message and Emotion.\n  - Practical Specifications.",
+        "position": { "x": 1550, "y": 0 }
+      },
+      {
+        "id": "10",
+        "type": "DEFAULT",
+        "label": "🏫 School District Proposal Builder",
+        "prompt": "You are the School District Proposal Builder for Latimore Life & Legacy LLC.\n\nTask:\nAssemble an on-brand proposal draft aimed at school districts, using the Latimore guardrails and a provided district profile and component list.\n\nInputs:\n- {latimore_guardrails}.\n- {district_profile}.\n- {proposal_components}.\n\nAssumptions:\n- The offer focuses on protecting districts from operational chaos and financial instability in the event of leadership loss, while reinforcing community trust and preparedness.\n\nSteps:\n1) Understand the District\n- From {district_profile}, note:\n  - Size and location.\n  - Key stakeholders and decision-makers.\n  - Known concerns or recent events.\n  - Any relevant political or community dynamics.\n\n2) Map Components\n- Interpret {proposal_components} as the required structure, which may include items such as:\n  - Executive Summary.\n  - Current Risk Landscape.\n  - Latimore Solution Overview.\n  - Implementation Plan.\n  - Pricing and Options.\n  - Support, Training, and Communication.\n  - Next Steps and Call to Action.\n\n3) Build the Proposal\n- For each component in {proposal_components}, write content that:\n  - Uses the urgent but not fear-based tone.\n  - Emphasizes risks like operational chaos and financial instability without dramatizing.\n  - Highlights benefits around preparedness, continuity, and community trust.\n  - Respects the Founder Story Protocol if the story is used.\n  - Naturally points toward school district penetration as a KPI.\n\n4) Output Format\n- Present the proposal as a structured document with clear section headings that match {proposal_components}.\n- Include a short \"Board Ready Summary\" at the top that could be used as a one-page cover or executive overview.\n\nStyle:\n- Professional and reassuring.\n- Focused on partnership, stewardship, and long-term stability for the district.",
+        "position": { "x": 1750, "y": 0 }
+      },
+      {
+        "id": "11",
+        "type": "END",
+        "position": { "x": 1950, "y": 0 }
+      }
+    ],
+    "edges": [
+      { "sourceNode": "1", "targetNode": "2" },
+      { "sourceNode": "2", "targetNode": "3" },
+      { "sourceNode": "3", "targetNode": "4" },
+      { "sourceNode": "4", "targetNode": "5" },
+      { "sourceNode": "5", "targetNode": "6" },
+      { "sourceNode": "6", "targetNode": "7" },
+      { "sourceNode": "7", "targetNode": "8" },
+      { "sourceNode": "8", "targetNode": "9" },
+      { "sourceNode": "9", "targetNode": "10" },
+      { "sourceNode": "10", "targetNode": "11" }
+    ],
+    "state": {
+      "keys": [
+        { "name": "brand_manual_text", "type": "INPUT", "values": ["Full Latimore Life & Legacy LLC brand and business plan pasted as raw text."] },
+        { "name": "latimore_guardrails", "type": "INPUT", "values": ["Operational guardrail matrix generated by the guardrail node."] },
+        { "name": "asset_type", "type": "INPUT", "values": ["landing page hero section"] },
+        { "name": "asset_purpose", "type": "INPUT", "values": ["book consultations with pre-retirees in Schuylkill County"] },
+        { "name": "asset_channel", "type": "INPUT", "values": ["website"] },
+        { "name": "asset_text", "type": "INPUT", "values": ["Draft copy to be reviewed or rewritten."] },
+        { "name": "target_icp", "type": "INPUT", "values": ["Pre-Retirees"] },
+        { "name": "primary_kpi_focus", "type": "INPUT", "values": ["monthly_application_volume"] },
+        { "name": "notes_from_review", "type": "INPUT", "values": ["Key issues and change requests from the compliance review node."] },
+        { "name": "content_brief", "type": "INPUT", "values": ["High-level description of the content to be created, including angle, key promises, and must-include points."] },
+        { "name": "content_format", "type": "INPUT", "values": ["long-form email", "social post", "one-page flyer"] },
+        { "name": "content_length", "type": "INPUT", "values": ["short", "150 words", "3 to 5 paragraphs"] },
+        { "name": "distribution_notes", "type": "INPUT", "values": ["Used in school board packet and shared with PTA leaders."] },
+        { "name": "historical_assets", "type": "INPUT", "values": ["A small bundle of prior Latimore assets that represent the brand voice."] },
+        { "name": "new_asset_text", "type": "INPUT", "values": ["The new asset being checked for brand drift."] },
+        { "name": "visual_requirements", "type": "INPUT", "values": ["Print-ready one-pager with space for QR code and primary logo in top left."] },
+        { "name": "district_profile", "type": "INPUT", "values": ["Summary of the target school district, including size, location, demographics, and decision-makers."] },
+        { "name": "proposal_components", "type": "INPUT", "values": ["Executive Summary", "Current Risk Landscape", "Latimore Solution Overview", "Implementation Plan", "Pricing and Options", "Support, Training, and Communication", "Next Steps and Call to Action"] }
+      ]
+    }
+  }
+}
